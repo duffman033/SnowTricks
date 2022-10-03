@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomepageController!{% endblock %}
+
+{% block body %}
+    <section id="hero" class="d-flex justify-content-center align-items-center">
+        <div id="carouselExampleControls" class="container carousel carousel-fade">
+            <div class="carousel-item active">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">Bienvenue chez <span>SnowTricks</span></h2>
+                    <p class="animate__animated animate__fadeInUp">Le site communautaire qui regroupe tous les tricks du
+                        Snowboard et une grande communauté de fan.</p>
+                    <a href="{{ path('app_homepage') }}#tricks_anchor"
+                       class="btn-get-started animate__animated animate__fadeInUp">Plus de détails?</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-container">
+                    <h2 class="animate__animated animate__fadeInDown">SnowTricks c'est quoi?</h2>
+                    <p class="animate__animated animate__fadeInUp">C'est un site collaboratif pour faire connaître ce
+                        sport auprès du grand public et aider à l'apprentissage des figures (tricks).</p>
+                    <a href="{{ path('app_homepage') }}#tricks_anchor"
+                       class="btn-get-started animate__animated animate__fadeInUp">Plus de tricks?</a>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
+            </a>
+        </div>
+    </section>
+    <main id="main">
+        <section id="tricks_anchor" class="service-details">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-lg-12">
+                        <h3>Les tricks typiques de snowboard à connaître</h3>
+                        <h4>Imiter ou élaborer sa propre signature? Telle est la question.</h4>
+                    </div>
+                </div>
+                <a href="#footer" class="btn btn-outline-primary btn-floating btn-lg" id="btn-back-to-down">
+                    <i class="bi bi-arrow-down-circle"></i>
+                </a>
+                <br>
+                <hr>
+                <br>
+                <div class="row">
+                    {% for trick in tricks %}
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card">
+                                {% for picture in trick.pictures|slice(0,1) %}
+                                    <div class="card-img">
+                                        <img src="{{ asset('/uploads/'~picture.name) }}" alt="Card image cap" style="width : 416px; height: 322px">
+                                    </div>
+                                {% endfor %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ trick.name }}</h5>
+                                    <p class="card-text">{{ trick.description | slice(0,60) }}...</p>
+                                    <div class="read-more"><a href="{{ path('app_tricks_show', {'id': trick.id}) }}"><i class="bi bi-arrow-right"></i>Détails</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
