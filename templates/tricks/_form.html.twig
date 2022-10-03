@@ -1,0 +1,56 @@
+{{ form_start(form) }}
+<div class="container">
+    <div class="row">
+        <div class="d-flex flex-column col-md-6">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            {{ form_errors(form.name) }}
+            {{ form_help(form.name) }}
+        </div>
+        <div class=" d-flex flex-column col-md-6">
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category) }}
+            {{ form_errors(form.category) }}
+            {{ form_help(form.category) }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class=" d-flex flex-column">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_help(form.description) }}
+        </div>
+    </div>
+    <br>
+    <div class="col">
+        <h2>Images :</h2>
+        <div class="row">
+            <div class=" d-flex flex-column">
+                {{ form_label(form.pictures) }}
+                {{ form_widget(form.pictures) }}
+                {{ form_errors(form.pictures) }}
+                {{ form_help(form.pictures) }}
+            </div>
+        </div>
+        <br>
+        {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
+            <div class="col d-flex">
+                {% for picture in trick.pictures %}
+                    <div class="row d-flex" style="width: 25%; margin : auto;">
+                        <img src="{{ asset('/uploads/'~picture.name) }}" alt="">
+                        <a href="{{ path('tricks_delete_picture', {id: picture.id}) }}" data-delete
+                           data-token="{{ csrf_token('delete' ~ picture.id ) }}">Supprimer</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <br>
+    <div class="row">
+        <button type="submit" class="btn btn-outline-success">{{ button_label|default('Modifier') }}</button>
+    </div>
+</div>
+
+{{ form_end(form) }}

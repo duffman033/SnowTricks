@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tricks{% endblock %}
+
+{% block body %}
+    <main id="main">
+        <div class="container mt-5">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-10 col-md-offset-1 mt-5 mb-4">
+
+                    <div class="card mt-5">
+                        {% for picture in trick.pictures|slice(0,1) %}
+                            <img class="card-img-top" src="{{ asset('/uploads/'~picture.name) }}" alt="Stalefish-main">
+                        {% endfor %}
+                        <div class="card-body">
+                            <ul class="list-inline trick-data">
+                                <h4 class="card-title"><strong>{{ trick.name }}</strong></h4>
+                                <li class="list-inline-item">
+                                    Ajouté le {{ trick.createdAt ? trick.createdAt|date('Y-m-d') : '' }} (<small>Mise à jour le : {{ trick.updatedAt ? trick.updatedAt|date('Y-m-d') : '' }}</small>)
+                                </li> |
+                                <li class="list-inline-item">
+                                    Catégorie : {{ trick.category }}
+                                </li>
+                            </ul>
+                            <hr>
+                            <div class="row d-none d-lg-flex load-media">
+                                <div class="col-lg-6 col-md-12">
+                                    <div id="carouselExampleControls" class="carousel slide mt-3 mb-2" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for picture in trick.pictures %}
+                                                <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
+                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100"
+                                                         alt="">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    <div id="carouselExampleControls" class="carousel slide mt-3 mb-2" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for picture in trick.pictures %}
+                                                <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
+                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100"
+                                                         alt="">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <a href="#" id="loadMedia" class="d-md-block d-lg-none">
+                                    <button class="btn btn-outline-secondary">Afficher les médias</button>
+                                </a>
+                                <a href="#" id="hideMedia" class="d-none d-md-none d-lg-none">
+                                    <button class="btn btn-outline-secondary mt-3">Masquer les médias</button>
+                                </a>
+                            </div>
+                            <hr>
+                            <h5 class="card-title">Description</h5>
+                            <p class="card-text text-justify">{{ trick.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
