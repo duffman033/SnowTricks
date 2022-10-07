@@ -9,8 +9,13 @@
             <ul>
                 <li><a href="{{ path('app_homepage') }}">Acceuil</a></li>
                 <li><a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a></li>
-                <li><a href="">Connexion</a></li>
-                <li><a href="">Inscription</a></li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                    <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                {% endif %}
+
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
@@ -19,17 +24,20 @@
 </header>
 <div>
     <nav class="mobile-nav">
-        <a href="#" class="bloc-icon">
+        <a href="{{ path('app_homepage') }}" class="bloc-icon">
             <i class="bi bi-house-door-fill"></i>
         </a>
-        <a href="#" class="bloc-icon">
+        <a href="{{ path('app_homepage') }}#tricks_anchor" class="bloc-icon">
             <i class="bi bi-bookmarks-fill"></i>
         </a>
-        <a href="#" class="bloc-icon">
-            <i class="bi bi-box-arrow-in-right"></i>
-        </a>
-        <a href="#" class="bloc-icon" style="color: red">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_logout') }}" class="bloc-icon" style="color: red">
             <i class="bi bi-box-arrow-left"></i>
         </a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="bloc-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </a>
+        {% endif %}
     </nav>
 </div>

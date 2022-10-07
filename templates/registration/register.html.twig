@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="container register">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-5 text-center">Inscrivez-vous</h1>
+                {{ form_start(registrationForm, {
+                    attr: {
+                        novalidate: "novalidate"
+                    }}
+                ) }}
+                <div class="form-group">
+                    {{ form_label(registrationForm.name) }}
+                    <br>
+                    {{ form_widget(registrationForm.name) }}
+                    {{ form_help(registrationForm.name) }}
+                    {{ form_errors(registrationForm.name) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.email) }}
+                    <br>
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_help(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword.first) }}
+                    <br>
+                    {{ form_widget(registrationForm.plainPassword.first) }}
+                    {{ form_help(registrationForm.plainPassword.first) }}
+                    {{ form_errors(registrationForm.plainPassword.first) }}
+
+                    {{ form_label(registrationForm.plainPassword.second) }}
+                    <br>
+                    {{ form_widget(registrationForm.plainPassword.second) }}
+                    {{ form_help(registrationForm.plainPassword.second) }}
+                    {{ form_errors(registrationForm.plainPassword.second) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.agreeTerms) }}
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    {{ form_help(registrationForm.agreeTerms) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+
+
+                <div class="form-group mt-5 text-center">
+                    <div class="form-group"><button type="submit" class="btn btn-success btn">Inscription</button></div>
+                </div>
+                {{ form_end(registrationForm) }}
+                <a href="{{ path('app_login') }}">Connectez-vous à votre compte</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
