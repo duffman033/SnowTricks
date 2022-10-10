@@ -21,6 +21,10 @@ a:hover {
     text-decoration: none;
 }
 
+.alert{
+    z-index:9999;
+}
+
 #btn-back-to-top {
     position: fixed;
     bottom: 20px;
@@ -313,6 +317,11 @@ a:hover {
     background: #68A4C4;
     color: #fff;
     text-decoration: none;
+}
+
+.register{
+    margin-top: 10rem;
+    margin-bottom: 3rem;
 }
 
 @media (min-width: 1024px) {
