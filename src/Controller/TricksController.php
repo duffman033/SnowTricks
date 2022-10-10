@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Pictures;
 use App\Entity\Tricks;
+use App\Form\CommentType;
 use App\Form\TricksType;
+use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,7 +48,7 @@ class TricksController extends AbstractController
 
             $tricksRepository->add($trick, true);
 
-            return $this->redirectToRoute('app_tricks_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tricks/new.html.twig', [
@@ -55,12 +58,30 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_tricks_show", methods={"GET"})
+     * @Route("/{id}", name="app_tricks_show", methods={"GET", "POST"}))
      */
-    public function show(Tricks $trick): Response
+    public function show(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $commentRepository->add($comment, true);
+
+            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
+
+            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
+        }
+
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
+            'comments' => $commentRepository->findCommentsLastUpdated($trick),
+            'countComments' => $commentRepository->count(['trick' => $trick]),
+            'comment' => $comment,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -91,7 +112,7 @@ class TricksController extends AbstractController
 
             $tricksRepository->add($trick, true);
 
-            return $this->redirectToRoute('app_tricks_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tricks/edit.html.twig', [
@@ -109,7 +130,7 @@ class TricksController extends AbstractController
             $tricksRepository->remove($trick, true);
         }
 
-        return $this->redirectToRoute('app_tricks_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
@@ -127,5 +148,28 @@ class TricksController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('app_tricks_edit',['id' => $trickId]);
+    }
+
+    /**
+     * @Route("/loadmore", name="comment_loadmore", methods={"POST"})
+     */
+    public function loadMoreComments(Request $request, CommentRepository $commentRepository, TricksRepository $trickRepository): JsonResponse
+    {
+        if ($request->isXmlHttpRequest()) {
+            $data = [];
+            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trickRepository->find($request->request->get('tricks')));
+
+            foreach ($comments as $comment) {
+                $data[] = [
+                    'id' => $comment->getId(),
+                    'user' => $comment->getUser()->getUsername(),
+                    'avatar' => $comment->getUser()->getAvatar(),
+                    'created' => $comment->getCreatedAt()->format('d/m/Y H:i'),
+                    'content' => $comment->getContent(),
+                ];
+            }
+
+            return new JsonResponse($data);
+        }
     }
 }
