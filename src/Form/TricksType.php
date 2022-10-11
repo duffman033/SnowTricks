@@ -55,7 +55,6 @@ class TricksType extends AbstractType
                 'attr'=>[
                     'class' => 'form-control',
                 ],
-
             ])
         ;
     }

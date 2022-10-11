@@ -2,6 +2,16 @@
 
 {% block title %}Tricks{% endblock %}
 
+{% set mainPicture = 'default.jpg' %}
+
+{% if (trick.pictures | length) != 0 %}
+    {% for picture in trick.pictures|sort((a, b) => b.id <=> a.id) %}
+        {% if loop.first %}
+            {% set mainPicture = picture.name %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% block body %}
     <main id="main">
         <div class="container mt-5">
@@ -9,12 +19,14 @@
                 <div class="col-md-10 col-md-offset-1 mt-5 mb-4">
 
                     <div class="card mt-5">
-                        {% for picture in trick.pictures|slice(0,1) %}
-                            <img class="card-img-top" src="{{ asset('/uploads/'~picture.name) }}" alt="Stalefish-main">
-                        {% endfor %}
+                            <img class="card-img-top" src="{{ asset('/uploads/'~mainPicture) }}" alt="Stalefish-main">
                         <div class="card-body">
                             <ul class="list-inline trick-data">
                                 <h4 class="card-title"><strong>{{ trick.name }}</strong></h4>
+                                <li class="list-inline-item">
+                                    Auteur : {{ trick.user.name }}
+                                </li>
+                                |
                                 <li class="list-inline-item">
                                     Ajouté le {{ trick.createdAt ? trick.createdAt|date('Y-m-d') : '' }} (<small>Mise à
                                         jour le : {{ trick.updatedAt ? trick.updatedAt|date('Y-m-d') : '' }}</small>)
@@ -129,7 +141,7 @@
                                             </li>
                                         {% endfor %}
                                     {% else %}
-                                        <p class="p-2">No comments. Be the first to discuss about this trick !</p>
+                                        <p class="p-2">Aucun commentaires. Soyez le premier à discuter de ce trick !</p>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -139,6 +151,11 @@
                                     <div class="col-12 text-center section-loadmore-comments">
                                         <button class="btn btn-info loadmore-comments">Voir plus</button>
                                         <input type="hidden" id="showMoreOffsetComments" data-href="{{ path('app_tricks_show', {'id': trick.id}) }}" value="10" />
+                                    <div class="row">
+                                        <div class="col-12 text-center section-loadmore-comments">
+                                            <button class="btn btn-info loadmore-comments">Voir plus</button>
+                                            <input type="hidden" id="showMoreOffsetComments" data-href="{{ path('comment_loadmore')}}" value="10" />
+                                        </div>
                                     </div>
                                 </div>
                             {% endif %}

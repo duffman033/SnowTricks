@@ -50,6 +50,17 @@ class Tricks
     private $pictures;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     */
+    private $videos;
+
+    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="tricks")
      */
     private $comments;
@@ -58,6 +69,8 @@ class Tricks
     {
         $this->pictures = new ArrayCollection();
         $this->created_at = new \DateTime('now');
+        $this->updated_at = new \DateTime('now');
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,6 +163,48 @@ class Tricks
             // set the owning side to null (unless already changed)
             if ($pictures->getTricks() === $this) {
                 $pictures->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
             }
         }
 

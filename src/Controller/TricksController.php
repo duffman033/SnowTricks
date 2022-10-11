@@ -45,6 +45,7 @@ class TricksController extends AbstractController
                 $img->setName($fichier);
                 $trick->addPictures($img);
             }
+            $trick->setUser($this->getUser());
 
             $tricksRepository->add($trick, true);
 
