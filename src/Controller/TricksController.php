@@ -76,9 +76,25 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
         }
 
+        if ($request->isXmlHttpRequest()) {
+            $data = [];
+            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trick);
+
+            foreach ($comments as $comment) {
+                $data[] = [
+                    'id' => $comment->getId(),
+                    'user' => $comment->getUser()->getUsername(),
+                    'avatar' => $comment->getUser()->getAvatar(),
+                    'created' => $comment->getCreatedAt()->format('d/m/Y H:i'),
+                    'content' => $comment->getContent(),
+                ];
+            }
+
+            return new JsonResponse($data);
+        }
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
-            'comments' => $commentRepository->findCommentsLastUpdated($trick),
+            'comments' => $commentRepository->findCommentsDesc($trick),
             'countComments' => $commentRepository->count(['trick' => $trick]),
             'comment' => $comment,
             'form' => $form->createView(),
@@ -148,28 +164,5 @@ class TricksController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('app_tricks_edit',['id' => $trickId]);
-    }
-
-    /**
-     * @Route("/loadmore", name="comment_loadmore", methods={"POST"})
-     */
-    public function loadMoreComments(Request $request, CommentRepository $commentRepository, TricksRepository $trickRepository): JsonResponse
-    {
-        if ($request->isXmlHttpRequest()) {
-            $data = [];
-            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trickRepository->find($request->request->get('tricks')));
-
-            foreach ($comments as $comment) {
-                $data[] = [
-                    'id' => $comment->getId(),
-                    'user' => $comment->getUser()->getUsername(),
-                    'avatar' => $comment->getUser()->getAvatar(),
-                    'created' => $comment->getCreatedAt()->format('d/m/Y H:i'),
-                    'content' => $comment->getContent(),
-                ];
-            }
-
-            return new JsonResponse($data);
-        }
     }
 }

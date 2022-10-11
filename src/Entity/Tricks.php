@@ -49,6 +49,11 @@ class Tricks
      */
     private $pictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="tricks")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();

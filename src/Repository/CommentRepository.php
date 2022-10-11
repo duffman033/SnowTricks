@@ -38,7 +38,7 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findCommentsLastUpdated(Tricks $trick)
+    public function findCommentsDesc(Tricks $trick)
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.trick = :trick')
