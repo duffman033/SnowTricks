@@ -21,6 +21,7 @@
                     integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
                     crossorigin="anonymous"></script>
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('theme') }}
         {% endblock %}
     </head>
     <body>
@@ -31,8 +32,8 @@
                 <div class="alert alert-{{ status}}">{{message}}</div>
             {% endfor %}
         {% endfor %}
-        <a href="#footer" class="btn btn-outline-primary btn-floating btn-lg" id="btn-back-to-down">
-            <i class="fa-sharp fa-solid fa-arrow-down-to-line"></i>
+        <a href="#main" class="btn btn-outline-primary btn-floating btn-lg" id="to-down">
+            <i class="fa-solid fa-arrow-down"></i>
         </a>
 
         {% block body %}{% endblock %}

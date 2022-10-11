@@ -15,7 +15,7 @@
             <div class="col-md-10 col-md-offset-1 mt-5 mb-4">
                 <h3>{{ titleh1 }}</h3>
                 <div class="card mt-5">
-                    <img class="card-img-top" src="{{ asset('/uploads/'~mainPicture) }}" alt="Stalefish-main">
+                    <img class="card-img-top" style="height:30rem" src="{{ asset('/uploads/'~mainPicture) }}" alt="Stalefish-main">
                     <div class="card-body">
                         <ul class="list-inline trick-data">
                             <h4 class="card-title"><strong>{{ form_row(form.name) }}</strong></h4>
@@ -46,12 +46,12 @@
                         <div class="row d-none d-lg-flex load-media">
                             <div class="col-lg-6 col-md-12">
                                 {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
-                                    <div id="carouselExampleControls" class="carousel slide mt-3 mb-2"
+                                    <div id="carousel-image" class="carousel slide mt-3 mb-2"
                                          data-bs-ride="carousel">
-                                        <div class="carousel-inner">
+                                        <div class="carousel-inner text-center">
                                             {% for picture in trick.pictures %}
                                                 <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
-                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100"
+                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100" height="345"
                                                          alt="">
                                                     <a href="{{ path('tricks_delete_picture', {id: picture.id}) }}"
                                                        data-delete
@@ -60,12 +60,12 @@
                                             {% endfor %}
                                         </div>
                                         <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                                data-bs-target="#carousel-image" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </button>
                                         <button class="carousel-control-next" type="button"
-                                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                                data-bs-target="#carousel-image" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </button>
@@ -75,31 +75,32 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
-                                    <div id="carouselExampleControls" class="carousel slide mt-3 mb-2"
+                                    <div id="carousel-video" class="carousel slide mt-3 mb-2" data-interval="false"
                                          data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            {% for picture in trick.pictures %}
+                                        <div class="carousel-inner text-center">
+                                            {% for video in trick.videos %}
                                                 <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
-                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100"
-                                                         alt="">
-                                                    <a href="{{ path('tricks_delete_picture', {id: picture.id}) }}"
+                                                    <iframe class="w-100" height="345" src="{{ video.url }}">
+                                                    </iframe>
+                                                    <a href="{{ path('tricks_delete_video', {id: video.id}) }}"
                                                        data-delete
-                                                       data-token="{{ csrf_token('delete' ~ picture.id ) }}">Supprimer</a>
+                                                       data-token="{{ csrf_token('delete' ~ video.id ) }}">Supprimer</a>
                                                 </div>
                                             {% endfor %}
                                         </div>
                                         <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                                data-bs-target="#carousel-video" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Previous</span>
                                         </button>
                                         <button class="carousel-control-next" type="button"
-                                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                                data-bs-target="#carousel-video" data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="visually-hidden">Next</span>
                                         </button>
                                     </div>
                                 {% endif %}
+                                {{ form_row(form.url) }}
                             </div>
                         </div>
                         <div class="text-center">

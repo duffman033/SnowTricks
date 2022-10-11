@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class TricksType extends AbstractType
 {
@@ -56,6 +57,19 @@ class TricksType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('url', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Lien vers la vidéo'
+                ],
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new Regex(['pattern' => "^((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|(/http:\/\/www\.dailymotion\.com\/video\/+/)|((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)^", 'message' => 'L\'URL de la vidéo entrée n\'est pas valide ! Nous acceptons les vidéos provenant de Youtube, Dailymotion et Viméo.']),
+                ],
+
+            ]);
         ;
     }
 
@@ -63,6 +77,7 @@ class TricksType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tricks::class,
+            'csrf_protection' => false,
         ]);
     }
 }

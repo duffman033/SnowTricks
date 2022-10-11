@@ -61,7 +61,7 @@ class Tricks
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="tricks")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
      */
     private $comments;
 
@@ -210,7 +210,6 @@ class Tricks
 
         return $this;
     }
-
 
     public function getComments(): ?string
     {
