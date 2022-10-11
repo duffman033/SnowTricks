@@ -58,23 +58,12 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_tricks_show", methods={"GET", "POST"}))
+     * @Route("/{id}", name="app_tricks_show", methods={"POST","GET"}))
      */
     public function show(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-            $commentRepository->add($comment, true);
-
-            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
-
-            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
-        }
 
         if ($request->isXmlHttpRequest()) {
             $data = [];
@@ -101,6 +90,25 @@ class TricksController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}/comment", name="app_tricks_show_comment", methods={"POST","GET"}))
+     */
+    public function comment(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $commentRepository->add($comment, true);
+
+            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
+
+            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
+        }
+    }
     /**
      * @Route("/{id}/edit", name="app_tricks_edit", methods={"GET", "POST"})
      */

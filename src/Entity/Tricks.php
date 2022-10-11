@@ -155,4 +155,17 @@ class Tricks
 
         return $this;
     }
+
+
+    public function getComments(): ?string
+    {
+        return $this->comments;
+    }
+
+    public function setComments(string $comments): self
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
 }

@@ -1,5 +1,8 @@
 (function() {
 
+    $(".alert").show();
+    setTimeout(function() { $(".alert").fadeOut('slow'); }, 2000);
+
     //Get the button
     let mybutton = document.getElementById("btn-back-to-top");
     let downButton = document.getElementById("btn-back-to-down");

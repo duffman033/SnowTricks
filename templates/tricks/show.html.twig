@@ -88,8 +88,8 @@
                     </div>
                     <span class="comments-anchor" id="comments-block"></span>
                     {% if app.user %}
-                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
-                            <div class="row justify-content-center">
+                        {{ form_start(form, { 'action': path('app_tricks_show_comment', {'id': trick.id}), 'method': 'POST'}) }}
+                        <div class="row justify-content-center">
                                 <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 ">
                                     {{ form_row(form.content) }}
                                     {{ form_row(form.submit) }}
@@ -108,7 +108,7 @@
                         <div class="comments text-left padDiv mb-30">
                             <div class="entry-comments">
                                 <h6 class="mb-30">{{ countComments > 1 ? countComments ~ " commentaires" : countComments ~ " commentaire" }}</h6>
-                                <ul class="entry-comments-list list-unstyled">
+                                <ul class="entry-comments-list list-unstyled" id="list-comments">
                                     {% if comments is not empty %}
                                         {% for comment in comments %}
                                             <span class="comment-anchor" id="10"></span>
@@ -136,10 +136,9 @@
 
                             {% if countComments > 8 %}
                                 <div class="container">
-                                    <div class="row">
-                                        <div class="col-12 text-center section-loadmore-comments">
-                                            <button class="btn btn-info loadmore-comments" id="showMoreOffsetComments" data-href="{{ path('app_tricks_show', {'id': trick.id}) }}">Voir plus</button>
-                                        </div>
+                                    <div class="col-12 text-center section-loadmore-comments">
+                                        <button class="btn btn-info loadmore-comments">Voir plus</button>
+                                        <input type="hidden" id="showMoreOffsetComments" data-href="{{ path('app_tricks_show', {'id': trick.id}) }}" value="10" />
                                     </div>
                                 </div>
                             {% endif %}
