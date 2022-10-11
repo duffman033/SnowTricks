@@ -49,6 +49,11 @@ class Tricks
      */
     private $pictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="tricks")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -147,6 +152,19 @@ class Tricks
                 $pictures->setTricks(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function getComments(): ?string
+    {
+        return $this->comments;
+    }
+
+    public function setComments(string $comments): self
+    {
+        $this->comments = $comments;
 
         return $this;
     }
