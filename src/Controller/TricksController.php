@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Pictures;
 use App\Entity\Tricks;
+use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
+use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,9 +34,9 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pictures = $form->get('pictures')->getData();
 
-            foreach($pictures as $image){
+            foreach ($pictures as $image) {
 
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 $image->move(
                     $this->getParameter('images_directory'),
@@ -45,9 +47,10 @@ class TricksController extends AbstractController
                 $img->setName($fichier);
                 $trick->addPictures($img);
             }
+            $trick->setUser($this->getUser());
 
             $tricksRepository->add($trick, true);
-
+            $this->addFlash('success', "Ajout effectué avec succès !");
             return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -109,20 +112,27 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
         }
     }
+
     /**
      * @Route("/{id}/edit", name="app_tricks_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
+    public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository, VideoRepository $videoRepository): Response
     {
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
-
+        $video = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $url = $form->get('url')->getData();
+            $video->setTrick($trick);
+            $video->setUrl($url);
+            $videoRepository->add($video, true);
+
             $pictures = $form->get('pictures')->getData();
 
-            foreach($pictures as $picture){
+            foreach ($pictures as $picture) {
 
-                $fichier = md5(uniqid()).'.'.$picture->guessExtension();
+                $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
 
                 $picture->move(
                     $this->getParameter('images_directory'),
@@ -135,7 +145,7 @@ class TricksController extends AbstractController
             }
 
             $tricksRepository->add($trick, true);
-
+            $this->addFlash('success', "Modification effectuée avec succès !");
             return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -150,27 +160,45 @@ class TricksController extends AbstractController
      */
     public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
             $tricksRepository->remove($trick, true);
         }
-
+        $this->addFlash('success', "Suppression effectuée avec succès !");
         return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
      * @Route("/delete/picture/{id}", name="tricks_delete_picture", methods={"HEAD","GET","DELETE"})
      */
-    public function deletePicture(Pictures $picture, Request $request){
+    public function deletePicture(Pictures $picture, Request $request)
+    {
         $data = json_decode($request->getContent(), true);
-            $name = $picture->getName();
-            $trickId = $picture->getTricks()->getId();
+        $name = $picture->getName();
+        $trickId = $picture->getTricks()->getId();
 
-            unlink($this->getParameter('images_directory').'/'.$name);
+        unlink($this->getParameter('images_directory') . '/' . $name);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($picture);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($picture);
+        $em->flush();
 
-            return $this->redirectToRoute('app_tricks_edit',['id' => $trickId]);
+        $this->addFlash('success', "Suppression effectuée avec succès !");
+        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickId]);
+    }
+
+    /**
+     * @Route("/delete/vidéo/{id}", name="tricks_delete_video", methods={"HEAD","GET","DELETE"})
+     */
+    public function deleteVideo(Video $video, Request $request)
+    {
+
+        $trickId = $video->getTrick()->getId();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($video);
+        $em->flush();
+
+        $this->addFlash('success', "Suppression effectuée avec succès !");
+        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickId]);
     }
 }

@@ -5,19 +5,24 @@
             <h1 class="text-light"><a href="{{ path('app_homepage') }}"><span>SnowTricks</span></a></h1>
         </div>
 
-        <nav id="navbar" class="navbar">
-            <ul>
-                <li><a href="{{ path('app_homepage') }}">Acceuil</a></li>
-                <li><a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a></li>
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                <a href="{{ path('app_homepage') }}">Acceuil</a>
+                <a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
+                    <a href="{{ path('app_logout') }}">Deconnexion</a>
                 {% else %}
-                    <li><a href="{{ path('app_login') }}">Connexion</a></li>
-                    <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                    <a href="{{ path('app_register') }}">Inscription</a>
                 {% endif %}
 
-            </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
+                </div>
+            </div>
+
         </nav>
 
     </div>
@@ -25,18 +30,18 @@
 <div>
     <nav class="mobile-nav">
         <a href="{{ path('app_homepage') }}" class="bloc-icon">
-            <i class="bi bi-house-door-fill"></i>
+            <i class="fa-solid fa-house"></i>
         </a>
         <a href="{{ path('app_homepage') }}#tricks_anchor" class="bloc-icon">
-            <i class="bi bi-bookmarks-fill"></i>
+            <i class="fa-solid fa-bookmark"></i>
         </a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a href="{{ path('app_logout') }}" class="bloc-icon" style="color: red">
-            <i class="bi bi-box-arrow-left"></i>
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </a>
         {% else %}
             <a href="{{ path('app_login') }}" class="bloc-icon">
-                <i class="bi bi-box-arrow-in-right"></i>
+                <i class="fa-solid fa-right-to-bracket"></i>
             </a>
         {% endif %}
     </nav>

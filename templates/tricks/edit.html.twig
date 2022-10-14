@@ -3,29 +3,7 @@
 {% block title %}Edit Tricks{% endblock %}
 
 {% block body %}
-    <main id="main">
-
-        <!-- ======= Our Portfolio Section ======= -->
-        <section class="breadcrumbs">
-            <div class="container">
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2>Modification {{ trick.name }}</h2>
-                    <ol>
-                        <li><a href="{{ path('app_homepage') }}">Acceuil</a></li>
-{#                        <li><a href="{{ path('app_tricks_index') }}">Tricks</a></li>#}
-                        <li>Modification</li>
-                    </ol>
-                </div>
-
-            </div>
-        </section>
-        <section class="contact">
-            <h1 style="text-align: center">{{ trick.name }}</h1>
-            {{ include('tricks/_form.html.twig') }}
-        </section>
-
-    </main>
+    {% set titleh1 = 'Modifier un tricks' %}
+    {{ include('tricks/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
 {% endblock %}
-
