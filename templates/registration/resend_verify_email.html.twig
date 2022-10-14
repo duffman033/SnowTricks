@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify Email{% endblock %}
+
+{% block body %}
+<div class="container register">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="mb-5 text-center">Verifiez votre email</h1>
+            <div class="login-form bg-light mt-4 p-4">
+                <p>
+                    Un e-mail de vérification a été envoyé - veuillez cliquer dessus pour activer votre
+                    compte avant de vous connecter.
+                </p>
+                <form method="POST">
+                    <button type="submit" class="btn btn-primary">Ré-envoyer l'email</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
