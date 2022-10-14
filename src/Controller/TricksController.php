@@ -11,6 +11,7 @@ use App\Form\TricksType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use App\Repository\VideoRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
      */
     public function new(Request $request, TricksRepository $tricksRepository): Response
@@ -94,6 +96,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{id}/comment", name="app_tricks_show_comment", methods={"POST","GET"}))
      */
     public function comment(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
@@ -114,6 +117,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{id}/edit", name="app_tricks_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository, VideoRepository $videoRepository): Response
@@ -156,6 +160,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{id}", name="app_tricks_delete", methods={"POST"})
      */
     public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
@@ -168,6 +173,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/delete/picture/{id}", name="tricks_delete_picture", methods={"HEAD","GET","DELETE"})
      */
     public function deletePicture(Pictures $picture, Request $request)
@@ -187,6 +193,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/delete/vidéo/{id}", name="tricks_delete_video", methods={"HEAD","GET","DELETE"})
      */
     public function deleteVideo(Video $video, Request $request)

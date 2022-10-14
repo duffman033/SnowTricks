@@ -14,6 +14,7 @@
                 <a href="{{ path('app_homepage') }}">Acceuil</a>
                 <a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a href="{{ path('app_tricks_new') }}">Ajouter un trick</a>
                     <a href="{{ path('app_logout') }}">Deconnexion</a>
                 {% else %}
                     <a href="{{ path('app_login') }}">Connexion</a>

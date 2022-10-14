@@ -6,6 +6,7 @@ use App\Repository\TricksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
@@ -20,12 +21,22 @@ class Tricks
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="5", max="20",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 20 caractères")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="5",minMessage="Le nom doit faire au minimum 5 caractères")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9._\p{L}-]{1,20}/",
+     *     message="Not valid description"
+     * )
      */
     private $description;
 
