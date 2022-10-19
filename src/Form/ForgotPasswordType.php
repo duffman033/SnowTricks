@@ -16,19 +16,19 @@ class ForgotPasswordType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label'=> "Votre adresse email",
-                'required'=> true,
-                'attr'=> [
-                    'placeholder'=> "Saisir votre email",
+                'label' => "Votre adresse email",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Saisir votre email",
                     'class' => 'form-control'
                 ],
 
-                'constraints' =>[
+                'constraints' => [
                     new NotBlank([
-                        'message'=> "L'adresse email est obligatoire"
+                        'message' => "L'adresse email est obligatoire"
                     ]),
                     new Email([
-                        'message'=> "L'adresse email n'est pas valide"
+                        'message' => "L'adresse email n'est pas valide"
                     ])
                 ]
 

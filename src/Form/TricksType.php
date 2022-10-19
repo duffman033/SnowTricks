@@ -17,24 +17,24 @@ class TricksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name',TextType::class,[
-                "label"=>"Nom du trick",
-                'attr'=>[
-                    'placeholder'=>"Nom du trick",
+            ->add('name', TextType::class, [
+                "label" => "Nom du trick",
+                'attr' => [
+                    'placeholder' => "Nom du trick",
                     'class' => 'form-control',
                 ],
-                'required'=>true,
+                'required' => true,
             ])
-            ->add('description',TextareaType::class,[
-                "label"=>"Desctiprion du trick",
-                'attr'=>[
-                    'placeholder'=>"Desctiprion du trick",
+            ->add('description', TextareaType::class, [
+                "label" => "Desctiprion du trick",
+                'attr' => [
+                    'placeholder' => "Desctiprion du trick",
                     'class' => 'form-control',
                 ],
-                'required'=>true,
+                'required' => true,
             ])
-            ->add('category',ChoiceType::class,[
-                'label'=>"Indiquez la catégorie du trick ",'choices'=>[
+            ->add('category', ChoiceType::class, [
+                'label' => "Indiquez la catégorie du trick ",'choices' => [
                     'Les grabs' => 'Les grabs',
                     'Les rotations' => 'Les rotations',
                     'Les flips' => 'Les flips',
@@ -43,17 +43,17 @@ class TricksType extends AbstractType
                     'Les one foot tricks' => 'Les one foot tricks',
                     'Old school' => 'Old school'
                 ],
-                'attr'=>[
+                'attr' => [
                     'class' => 'form-control',
                 ],
-                'required'=>true,
+                'required' => true,
             ])
-            ->add('pictures', FileType::class,[
+            ->add('pictures', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => true,
-                'attr'=>[
+                'attr' => [
                     'class' => 'form-control',
                 ],
             ])
@@ -70,7 +70,6 @@ class TricksType extends AbstractType
                 ],
 
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

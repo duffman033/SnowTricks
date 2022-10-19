@@ -29,7 +29,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         foreach ($this->trickRepository->findAll() as $trick) {
-            for ($i=0; $i < 2; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 $newComment = new Comment();
                 $newComment->setCreatedAt(new \DateTime());
                 $newComment->setUpdatedAt(new \DateTime());
@@ -40,7 +40,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($newComment);
             }
         }
-        
+
         $manager->flush();
     }
 

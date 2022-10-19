@@ -22,39 +22,39 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label'=> "Votre adresse email",
-                'required'=> true,
-                'attr'=> [
-                    'placeholder'=> "Saisir votre email",
+                'label' => "Votre adresse email",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Saisir votre email",
                     'class' => 'form-control'
                 ],
 
-                'constraints' =>[
+                'constraints' => [
                     new NotBlank([
-                        'message'=> "L'adresse email est obligatoire"
+                        'message' => "L'adresse email est obligatoire"
                     ]),
                     new Email([
-                        'message'=> "L'adresse email n'est pas valide"
+                        'message' => "L'adresse email n'est pas valide"
                     ])
                 ]
 
             ])
             ->add('name', TextType::class, [
-                'label'=>"Votre nom",
-                'required'=> true,
-                'attr'=> [
-                    'placeholder'=>"Ecrivez votre nom",
+                'label' => "Votre nom",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Ecrivez votre nom",
                     'class' => 'form-control'
                 ],
-                'constraints'=>[
+                'constraints' => [
                     new NotBlank([
-                        'message'=>"Ce champ est obligatoire"
+                        'message' => "Ce champ est obligatoire"
                     ])
                 ]
 
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label'=> "j'accepte les termes et conditions",
+                'label' => "j'accepte les termes et conditions",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -63,45 +63,45 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'type'=> PasswordType::class,
+                'type' => PasswordType::class,
 
                 // Pas de label sur le champ "repeated
-                'label'=>false,
+                'label' => false,
 
-                'required'=> true,
-                'mapped'=> false,
+                'required' => true,
+                'mapped' => false,
 
                 // Option du premier champ
-                'first_options'=> [
-                    'label' =>"Mot de passe",
-                    'attr'=>[
-                        'placeholder'=> "Saisir votre mot de passe",
+                'first_options' => [
+                    'label' => "Mot de passe",
+                    'attr' => [
+                        'placeholder' => "Saisir votre mot de passe",
                         'class' => 'form-control'
                     ],
-                    'constraints'=> [
+                    'constraints' => [
                         new NotBlank([
-                            'message'=> "Nouveau mot de passe requis",
+                            'message' => "Nouveau mot de passe requis",
                         ]),
                         new Length([
-                            'min'=> 6,
-                            'minMessage'=> "Minimum de 6 caractères",
-                            'max'=> 32,
-                            'maxMessage'=> "Maximum de 32 caractères",
+                            'min' => 6,
+                            'minMessage' => "Minimum de 6 caractères",
+                            'max' => 32,
+                            'maxMessage' => "Maximum de 32 caractères",
                         ]),
                     ]
                 ],
 
                 // Option du second champ
-                'second_options'=> [
-                    'label'=> "Confirmation du mot de passe",
-                    'attr'=>[
-                        'placeholder'=> "Répétez votre mot de passe",
+                'second_options' => [
+                    'label' => "Confirmation du mot de passe",
+                    'attr' => [
+                        'placeholder' => "Répétez votre mot de passe",
                         'class' => 'form-control'
                     ]
                 ],
 
                 // Message d'erreur
-                'invalid_message'=> "Les champs ne sont pas identiques",
+                'invalid_message' => "Les champs ne sont pas identiques",
             ])
         ;
     }

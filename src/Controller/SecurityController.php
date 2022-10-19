@@ -105,7 +105,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             //Reset token in database
             $user->setResetToken(null);
 

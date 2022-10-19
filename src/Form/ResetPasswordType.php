@@ -27,20 +27,20 @@ class ResetPasswordType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'label' =>"Mot de passe",
-                'attr'=>[
-                    'placeholder'=> "Saisir votre mot de passe",
+                'label' => "Mot de passe",
+                'attr' => [
+                    'placeholder' => "Saisir votre mot de passe",
                     'class' => 'form-control'
                 ],
-                'constraints'=> [
+                'constraints' => [
                     new NotBlank([
-                        'message'=> "Nouveau mot de passe requis",
+                        'message' => "Nouveau mot de passe requis",
                     ]),
                     new Length([
-                        'min'=> 6,
-                        'minMessage'=> "Minimum de 6 caractères",
-                        'max'=> 32,
-                        'maxMessage'=> "Maximum de 32 caractères",
+                        'min' => 6,
+                        'minMessage' => "Minimum de 6 caractères",
+                        'max' => 32,
+                        'maxMessage' => "Maximum de 32 caractères",
                     ]),
                 ],
             ])

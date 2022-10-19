@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -7,7 +8,6 @@ use Symfony\Component\Mailer\MailerInterface;
 class MailerService
 {
     private $mailer;
-
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
@@ -28,7 +28,6 @@ class MailerService
             ->subject($destination["subject"])
             ->htmlTemplate($destination["template"])
             ->context($parameters);
-
         $this->mailer->send($email);
     }
 }

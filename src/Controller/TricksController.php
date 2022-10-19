@@ -37,7 +37,6 @@ class TricksController extends AbstractController
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $image) {
-
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 $image->move(
@@ -126,7 +125,6 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
         $video = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
-
             $url = $form->get('url')->getData();
             $video->setTrick($trick);
             $video->setUrl($url);
@@ -135,7 +133,6 @@ class TricksController extends AbstractController
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $picture) {
-
                 $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
 
                 $picture->move(

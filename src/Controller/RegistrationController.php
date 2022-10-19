@@ -54,7 +54,8 @@ class RegistrationController extends AbstractController
             );
 
             $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email', $user,
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('bmoreau72@free.fr', 'SnowTricks Mail Bot'))
                     ->to($user->getEmail())
@@ -104,7 +105,6 @@ class RegistrationController extends AbstractController
     public function resendVerifyEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository)
     {
         if ($request->isMethod('POST')) {
-
             $email = $request->getSession()->get('non_verified_email');
             $user = $userRepository->findOneBy(['email' => $email]);
             if (!$user) {
@@ -119,7 +119,8 @@ class RegistrationController extends AbstractController
             );
 
             $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email', $user,
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('bmoreau72@free.fr', 'SnowTricks Mail Bot'))
                     ->to($user->getEmail())
