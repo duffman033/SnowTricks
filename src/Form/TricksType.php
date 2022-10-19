@@ -34,7 +34,7 @@ class TricksType extends AbstractType
                 'required'=>true,
             ])
             ->add('category',ChoiceType::class,[
-                'label'=>"Indiquez la catégorie du trick ",'choices'=>[
+                'label'=>"trick.cat",'choices'=>[
                     'Les grabs' => 'Les grabs',
                     'Les rotations' => 'Les rotations',
                     'Les flips' => 'Les flips',
