@@ -19,7 +19,6 @@
 
     });
 
-
     $(function () {
         $(window).scroll(function() {
             if ($(this).scrollTop() - 200 > 0) {
@@ -41,4 +40,15 @@
         });
     });
 
+    $(document).ready(function () {
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= 20) {
+                $('#header').addClass('header-scrolled');
+                $('.navbar').addClass('py-2').removeClass('py-4');
+            } else {
+                $('.navbar').removeClass('py-2').addClass('py-4');
+                $('#header').removeClass('header-scrolled');
+            }
+        });
+    });
 })()

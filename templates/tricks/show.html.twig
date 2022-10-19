@@ -14,24 +14,24 @@
 
 {% block body %}
     <main id="main">
-        <div class="container mt-5">
-            <div class="row justify-content-center mt-5">
-                <div class="col-md-10 col-md-offset-1 mt-5 mb-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-md-offset-1 mb-4">
                     <div class="card mt-5">
                         <img class="card-img-top" style="height:30rem" src="{{ asset('/uploads/'~mainPicture) }}"
                              alt="Stalefish-main">
                         <div class="card-body">
                             <ul class="list-inline trick-data">
                                 <div class="row d-flex justify-content-between">
-                                <h4 class="card-title"><strong>{{ trick.name }}</strong></h4>
-                                {% if app.user %}
-                                    <div class="operations">
-                                        <a href="{{ path('app_tricks_edit', {'id': trick.id}) }}" data-toggle="tooltip"
-                                           data-placement="right"
-                                           title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
-                                        {{ include('tricks/_delete_form.html.twig') }}
-                                    </div>
-                                {% endif %}
+                                    <h4 class="card-title"><strong>{{ trick.name }}</strong></h4>
+                                    {% if app.user %}
+                                        <div class="operations">
+                                            <a href="{{ path('app_tricks_edit', {'id': trick.id}) }}" data-toggle="tooltip"
+                                               data-placement="right"
+                                               title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
+                                            {{ include('tricks/_delete_form.html.twig') }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <li class="list-inline-item">
                                     Auteur : {{ trick.user.name }}
