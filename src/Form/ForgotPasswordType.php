@@ -15,34 +15,47 @@ class ForgotPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                'label'=> "Votre adresse email",
-                'required'=> true,
-                'attr'=> [
-                    'placeholder'=> "Saisir votre email",
-                    'class' => 'form-control'
-                ],
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                    'label' => "Votre adresse email",
+                    'required' => true,
+                    'attr' => [
+                        'placeholder' => "Saisir votre email",
+                        'class' => 'form-control'
+                    ],
 
-                'constraints' =>[
-                    new NotBlank([
-                        'message'=> "L'adresse email est obligatoire"
-                    ]),
-                    new Email([
-                        'message'=> "L'adresse email n'est pas valide"
-                    ])
+                    'constraints' => [
+                        new NotBlank(
+                            [
+                                'message' => "L'adresse email est obligatoire"
+                            ]
+                        ),
+                        new Email(
+                            [
+                                'message' => "L'adresse email n'est pas valide"
+                            ]
+                        )
+                    ]
+
                 ]
-
-            ])
-            ->add('send', SubmitType::class, [
-                'label' => "Envoyer"
-            ])
-        ;
+            )
+            ->add(
+                'send',
+                SubmitType::class,
+                [
+                    'label' => "Envoyer"
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setDefaults(
+            [
+                // Configure your form options here
+            ]
+        );
     }
 }

@@ -3,11 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
-use App\Repository\UserRepository;
 use App\Repository\TricksRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -29,7 +28,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         foreach ($this->trickRepository->findAll() as $trick) {
-            for ($i=0; $i < 2; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 $newComment = new Comment();
                 $newComment->setCreatedAt(new \DateTime());
                 $newComment->setUpdatedAt(new \DateTime());
@@ -40,14 +39,15 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($newComment);
             }
         }
-        
+
         $manager->flush();
     }
 
     public function getDependencies()
     {
         return [
-            AppFixtures::class, TricksFixtures::class
+            AppFixtures::class,
+            TricksFixtures::class
         ];
     }
 }

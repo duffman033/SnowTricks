@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use App\Entity\Tricks;
 use App\Repository\UserRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class TricksFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -23,8 +22,30 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $tricks = ['Front Bluntslide 270', 'Nose grab', 'Method air', 'Double back flip', 'Stalefish', 'Japan Air', 'Nose grab', '180 rotation', 'Tail grab', '900 rotation'];
-        $tricksCategories = ['Les Slide', 'Les Grab', 'Les one foot tricks' , 'Les flips', 'Les Grab', 'Les rotations', 'Les Grab', 'Old school' , 'Les one foot tricks', 'Les Grab'];
+        $tricks = [
+            'Front Bluntslide 270',
+            'Nose grab',
+            'Method air',
+            'Double back flip',
+            'Stalefish',
+            'Japan Air',
+            'Nose grab',
+            '180 rotation',
+            'Tail grab',
+            '900 rotation'
+        ];
+        $tricksCategories = [
+            'Les Slide',
+            'Les Grab',
+            'Les one foot tricks',
+            'Les flips',
+            'Les Grab',
+            'Les rotations',
+            'Les Grab',
+            'Old school',
+            'Les one foot tricks',
+            'Les Grab'
+        ];
         $tricksDescription = [
             "Un slide où il faut faire passer le pied avant au-dessus du rail en arrivant, avec la board perpendiculaire au rail, et faire 3/4 d'un tour sur le rail.",
             "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant.",

@@ -37,7 +37,6 @@ class TricksController extends AbstractController
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $image) {
-
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 $image->move(
@@ -56,10 +55,13 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tricks/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'tricks/new.html.twig',
+            [
+                'trick' => $trick,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -72,7 +74,11 @@ class TricksController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $data = [];
-            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trick);
+            $comments = $commentRepository->findLoadMoreComments(
+                $request->request->get('offset'),
+                $commentRepository->count([]),
+                $trick
+            );
 
             foreach ($comments as $comment) {
                 $data[] = [
@@ -86,13 +92,16 @@ class TricksController extends AbstractController
 
             return new JsonResponse($data);
         }
-        return $this->render('tricks/show.html.twig', [
-            'trick' => $trick,
-            'comments' => $commentRepository->findCommentsDesc($trick),
-            'countComments' => $commentRepository->count(['trick' => $trick]),
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'tricks/show.html.twig',
+            [
+                'trick' => $trick,
+                'comments' => $commentRepository->findCommentsDesc($trick),
+                'countComments' => $commentRepository->count(['trick' => $trick]),
+                'comment' => $comment,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -120,13 +129,16 @@ class TricksController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/{id}/edit", name="app_tricks_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository, VideoRepository $videoRepository): Response
-    {
+    public function edit(
+        Request $request,
+        Tricks $trick,
+        TricksRepository $tricksRepository,
+        VideoRepository $videoRepository
+    ): Response {
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
         $video = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
-
             $url = $form->get('url')->getData();
             $video->setTrick($trick);
             $video->setUrl($url);
@@ -135,7 +147,6 @@ class TricksController extends AbstractController
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $picture) {
-
                 $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
 
                 $picture->move(
@@ -153,10 +164,13 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tricks/edit.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'tricks/edit.html.twig',
+            [
+                'trick' => $trick,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -198,7 +212,6 @@ class TricksController extends AbstractController
      */
     public function deleteVideo(Video $video, Request $request)
     {
-
         $trickId = $video->getTrick()->getId();
 
         $em = $this->getDoctrine()->getManager();
