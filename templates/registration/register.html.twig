@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Inscrivez-vous{% endtrans %}{% endblock %}
+{% block title %}{% trans %}title.signup{% endtrans %}{% endblock %}
 
 {% block body %}
     <div class="container register">
@@ -9,7 +9,7 @@
         {% endfor %}
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h1 class="mb-5 text-center">{% trans %}Inscrivez-vous{% endtrans %}</h1>
+                <h1 class="mb-5 text-center">{% trans %}title.signup{% endtrans %}</h1>
                 {{ form_start(registrationForm, {
                     attr: {
                         novalidate: "novalidate"
@@ -51,10 +51,10 @@
 
 
                 <div class="form-group mt-5 text-center">
-                    <div class="form-group"><button type="submit" class="btn btn-success btn">{% trans %}Inscrivez-vous{% endtrans %}</button></div>
+                    <div class="form-group"><button type="submit" class="btn btn-success btn">{% trans %}title.signup{% endtrans %}</button></div>
                 </div>
                 {{ form_end(registrationForm) }}
-                <a href="{{ path('app_login') }}">{% trans %}Connectez-vous{% endtrans %}</a>
+                <a href="{{ path('app_login') }}">{% trans %}title.login{% endtrans %}</a>
             </div>
         </div>
     </div>
