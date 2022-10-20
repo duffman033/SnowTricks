@@ -140,10 +140,11 @@
                                             <li>
                                                 <div class="entry-comments-item">
                                                     {% if comment.user.avatar != null %}
-                                                        <img src="{{ asset('/uploads/'~ comment.user.avatar ) }}"
-                                                             class="entry-comments-avatar" alt="TestPseudo">
+                                                        <img src="{{ asset('/uploads/avatar/'~ comment.user.avatar ) }}"
+                                                             class="entry-comments-avatar" alt="Avatar {{ comment.user.name }}">
                                                     {% else %}
-                                                        <i class="fas fa-user-circle fa-sm"></i>
+                                                        <img src="{{ asset('uploads/avatar/default_avatar.jpg') }}"
+                                                             class="entry-comments-avatar" alt="Avatar {{ comment.user.name }}">
                                                     {% endif %}
                                                     <div class="entry-comments-body">
                                                         <span class="entry-comments-author"><p>{{ comment.user.name }}</p></span>
