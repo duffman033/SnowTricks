@@ -1,0 +1,39 @@
+label.username: Your name
+placeholder.username: Write your name
+label.email: Your email address
+placeholder.email: Enter your email
+label.password: Password
+placeholder.password: Enter your password
+label.confirmPassword: Confirm your password
+placeholder.confirmPassword: Confirm your password
+label.terms: I accept the terms and conditions
+
+title.login: Login
+title.signup: Sign up
+
+label.send: Send
+title.forgotPassword: Forgot your password
+
+label.comment: Your comment
+
+label.trickName: Trick name
+label.trickCategory: Trick category
+label.grabs: The grabs
+label.rotations: Rotations
+label.flips: The flips
+label.rotationsOffaxis: Off-axis rotations
+label.slides: The slides
+label.oneFootTrick: One foot tricks
+label.oldSchool: Old school
+label.videoLink: Link to video
+label.trickDescription: Trick description
+
+message.video: The video URL is invalid! (Youtube, Dailymotion and Vimeo)
+message.requiredEmail: Email address is required
+message.invalidEmail: The email address is not valid
+message.requiredField: This field is required
+message.terms: You should agree to our terms
+message.newPassRequired: Password is required
+message.maxPassword: Minimum of 6 characters
+message.minPassword: Maximum of 32
+message.invalidTwoPassword:  The fields are not identical

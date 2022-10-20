@@ -14,27 +14,36 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextareaType::class, [
-                'required' => true,
-                'label' => false,
-                'attr' => [
-                    'placeholder' => "Votre commentaire",
-                    'class' => 'form-control',
+            ->add(
+                'content',
+                TextareaType::class,
+                [
+                    'required' => true,
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => "label.comment",
+                        'class' => 'form-control',
+                    ]
                 ]
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => "Valider",
-                'attr' => [
-                    'class' => 'form-control',
+            )
+            ->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => "label.send",
+                    'attr' => [
+                        'class' => 'form-control',
+                    ]
                 ]
-            ])
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Comment::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Comment::class,
+            ]
+        );
     }
 }

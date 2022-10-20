@@ -27,17 +27,26 @@ class TricksController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, TricksRepository $tricksRepository): Response
-    {
+    public function new(
+        Request $request,
+        TricksRepository $tricksRepository,
+        VideoRepository $videoRepository
+    ): Response {
         $trick = new Tricks();
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
+        $video = new Video();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('url')->getData()) {
+                $url = $form->get('url')->getData();
+                $video->setTrick($trick);
+                $video->setUrl($url);
+                $videoRepository->add($video, true);
+            }
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $image) {
-
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
                 $image->move(
@@ -50,20 +59,24 @@ class TricksController extends AbstractController
                 $trick->addPictures($img);
             }
             $trick->setUser($this->getUser());
+//            $trick->setSlug($form->get('name')->getData());
 
             $tricksRepository->add($trick, true);
             $this->addFlash('success', "Ajout effectué avec succès !");
             return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tricks/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'tricks/new.html.twig',
+            [
+                'trick' => $trick,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
-     * @Route("/{id}", name="app_tricks_show", methods={"POST","GET"}))
+     * @Route("/{slug}", name="app_tricks_show", methods={"POST","GET"}))
      */
     public function show(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
     {
@@ -72,7 +85,11 @@ class TricksController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $data = [];
-            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trick);
+            $comments = $commentRepository->findLoadMoreComments(
+                $request->request->get('offset'),
+                $commentRepository->count([]),
+                $trick
+            );
 
             foreach ($comments as $comment) {
                 $data[] = [
@@ -86,18 +103,21 @@ class TricksController extends AbstractController
 
             return new JsonResponse($data);
         }
-        return $this->render('tricks/show.html.twig', [
-            'trick' => $trick,
-            'comments' => $commentRepository->findCommentsDesc($trick),
-            'countComments' => $commentRepository->count(['trick' => $trick]),
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'tricks/show.html.twig',
+            [
+                'trick' => $trick,
+                'comments' => $commentRepository->findCommentsDesc($trick),
+                'countComments' => $commentRepository->count(['trick' => $trick]),
+                'comment' => $comment,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{id}/comment", name="app_tricks_show_comment", methods={"POST","GET"}))
+     * @Route("/{slug}/comment", name="app_tricks_show_comment", methods={"POST","GET"}))
      */
     public function comment(Tricks $trick, Request $request, CommentRepository $commentRepository): Response
     {
@@ -112,30 +132,33 @@ class TricksController extends AbstractController
 
             $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
 
-            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('app_tricks_show', ["slug" => $trick->getSlug()],);
         }
     }
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{id}/edit", name="app_tricks_edit", methods={"GET", "POST"})
+     * @Route("/{slug}/edit", name="app_tricks_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository, VideoRepository $videoRepository): Response
-    {
+    public function edit(
+        Request $request,
+        Tricks $trick,
+        TricksRepository $tricksRepository,
+        VideoRepository $videoRepository
+    ): Response {
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
         $video = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $url = $form->get('url')->getData();
-            $video->setTrick($trick);
-            $video->setUrl($url);
-            $videoRepository->add($video, true);
-
+            if ($form->get('url')->getData()) {
+                $url = $form->get('url')->getData();
+                $video->setTrick($trick);
+                $video->setUrl($url);
+                $videoRepository->add($video, true);
+            }
             $pictures = $form->get('pictures')->getData();
 
             foreach ($pictures as $picture) {
-
                 $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
 
                 $picture->move(
@@ -147,21 +170,24 @@ class TricksController extends AbstractController
                 $img->setName($fichier);
                 $trick->addPictures($img);
             }
-
+//            $trick->setUpdatedAt(new \DateTime('now'));
             $tricksRepository->add($trick, true);
             $this->addFlash('success', "Modification effectuée avec succès !");
-            return $this->redirectToRoute('app_tricks_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tricks_show', ["slug" => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('tricks/edit.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'tricks/edit.html.twig',
+            [
+                'trick' => $trick,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{id}", name="app_tricks_delete", methods={"POST"})
+     * @Route("/{slug}", name="app_tricks_delete", methods={"POST"})
      */
     public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
     {
@@ -180,7 +206,7 @@ class TricksController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $name = $picture->getName();
-        $trickId = $picture->getTricks()->getId();
+        $trickSlug = $picture->getTricks()->getSlug();
 
         unlink($this->getParameter('images_directory') . '/' . $name);
 
@@ -189,7 +215,7 @@ class TricksController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', "Suppression effectuée avec succès !");
-        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickId]);
+        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickSlug]);
     }
 
     /**
@@ -198,14 +224,13 @@ class TricksController extends AbstractController
      */
     public function deleteVideo(Video $video, Request $request)
     {
-
-        $trickId = $video->getTrick()->getId();
+        $trickSlug = $video->getTrick()->getSlug();
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($video);
         $em->flush();
 
         $this->addFlash('success', "Suppression effectuée avec succès !");
-        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickId]);
+        return $this->redirectToRoute('app_tricks_edit', ['slug' => $trickSlug]);
     }
 }

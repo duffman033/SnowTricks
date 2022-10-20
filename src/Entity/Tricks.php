@@ -6,10 +6,13 @@ use App\Repository\TricksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
+ * @UniqueEntity(fields={"name"})
+ * @UniqueEntity(fields={"slug"})
  */
 class Tricks
 {
@@ -21,7 +24,12 @@ class Tricks
     private $id;
 
     /**
-     * @Assert\Length(min="5", max="20",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 20 caractères")
+     * @Assert\Length(
+     *     min="5",
+     *     max="20",
+     *     minMessage="Le nom doit faire au minimum 5 caractères",
+     *     maxMessage="Le nom ne doit pas faire plus de 20 caractères"
+     * )
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @ORM\Column(type="string", length=255, unique=true)
@@ -75,6 +83,11 @@ class Tricks
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -230,6 +243,18 @@ class Tricks
     public function setComments(string $comments): self
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
