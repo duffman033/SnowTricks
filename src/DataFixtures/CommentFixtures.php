@@ -3,11 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
-use App\Repository\UserRepository;
 use App\Repository\TricksRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -47,7 +46,8 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            AppFixtures::class, TricksFixtures::class
+            AppFixtures::class,
+            TricksFixtures::class
         ];
     }
 }

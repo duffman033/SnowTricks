@@ -21,7 +21,12 @@ class Tricks
     private $id;
 
     /**
-     * @Assert\Length(min="5", max="20",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 20 caractères")
+     * @Assert\Length(
+     *     min="5",
+     *     max="20",
+     *     minMessage="Le nom doit faire au minimum 5 caractères",
+     *     maxMessage="Le nom ne doit pas faire plus de 20 caractères"
+     * )
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @ORM\Column(type="string", length=255, unique=true)

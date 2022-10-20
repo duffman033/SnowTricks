@@ -29,8 +29,12 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, VerifyEmailHelperInterface $verifyEmailHelper): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        VerifyEmailHelperInterface $verifyEmailHelper
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -69,16 +73,23 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->render(
+            'registration/register.html.twig',
+            [
+                'registrationForm' => $form->createView(),
+            ]
+        );
     }
 
     /**
      * @Route("/verify/email", name="app_verify_email")
      */
-    public function verifyUserEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
-    {
+    public function verifyUserEmail(
+        Request $request,
+        VerifyEmailHelperInterface $verifyEmailHelper,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = $userRepository->find($request->query->get('id'));
         if (!$user) {
             throw $this->createNotFoundException();
@@ -102,8 +113,11 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/verify/resend", name="app_verify_resend_email")
      */
-    public function resendVerifyEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository)
-    {
+    public function resendVerifyEmail(
+        Request $request,
+        VerifyEmailHelperInterface $verifyEmailHelper,
+        UserRepository $userRepository
+    ) {
         if ($request->isMethod('POST')) {
             $email = $request->getSession()->get('non_verified_email');
             $user = $userRepository->findOneBy(['email' => $email]);

@@ -12,8 +12,9 @@ grumphp:
         phpcs:
             standard: 'PSR12'
             ignore_patterns:
-                - /^src\/Migrations\/(.*)/
+                - /migrations\/(.*)/
                 - /^config\/(.*)/
+                - /DataFixtures\/(.*)/
 
     parallel:
         enabled: true
