@@ -62,7 +62,9 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ trick.name }}</h5>
                                     <p class="card-text">{{ trick.description | slice(0,60) }}...</p>
-                                    <div class="read-more"><a href="{{ path('app_tricks_show', {'id': trick.id}) }}"><i class="fa-sharp fa-solid fa-arrow-right"></i>Détails</a></div>
+                                    <div class="read-more"><a
+                                                href="{{ path('app_tricks_show', {'slug': trick.slug}) }}"><i
+                                                    class="fa-sharp fa-solid fa-arrow-right"></i>Détails</a></div>
                                 </div>
                             </div>
                         </div>
