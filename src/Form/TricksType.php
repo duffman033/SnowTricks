@@ -98,7 +98,6 @@ class TricksType extends AbstractType
                             ]
                         ),
                     ],
-
                 ]
             );
     }
