@@ -34,14 +34,20 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException(
+            'This method can be blank - it will be intercepted by the logout key on your firewall.'
+        );
     }
 
     /**
      * @Route("/forgot-password", name="app_forgot_password")
      */
-    public function forgotPassword(Request $request, UserRepository $user, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): Response
-    {
+    public function forgotPassword(
+        Request $request,
+        UserRepository $user,
+        TokenGeneratorInterface $tokenGenerator,
+        MailerService $mailerService
+    ): Response {
         //Init reset password form
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -67,30 +73,40 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             //Send email
-            $mailerService->send([
-                "from" => 'bmoreau72@free.fr',
-                "to" => $data['email'],
-                "subject" => 'Mot de passe oublié - SnowTricks',
-                "template" => 'security/email.html.twig'
-            ], [
-                'token' => $token
-            ]);
+            $mailerService->send(
+                [
+                    "from" => 'bmoreau72@free.fr',
+                    "to" => $data['email'],
+                    "subject" => 'Mot de passe oublié - SnowTricks',
+                    "template" => 'security/email.html.twig'
+                ],
+                [
+                    'token' => $token
+                ]
+            );
 
             $this->addFlash('success', 'E-mail de réinitialisation du mot de passe envoyé !');
 
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('security/forgot_password.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render(
+            'security/forgot_password.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**
      * @Route("/reset-password/{token}", name="app_reset_password")
      */
-    public function resetPassword(Request $request, string $token, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function resetPassword(
+        Request $request,
+        string $token,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         //Find user with the token
         $user = $userRepository->findOneBy(['reset_token' => $token]);
 
@@ -105,7 +121,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             //Reset token in database
             $user->setResetToken(null);
 
@@ -126,9 +141,12 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('security/reset_password.html.twig', [
-            'form' => $form->createView(),
-            'token' => $token
-        ]);
+        return $this->render(
+            'security/reset_password.html.twig',
+            [
+                'form' => $form->createView(),
+                'token' => $token
+            ]
+        );
     }
 }
