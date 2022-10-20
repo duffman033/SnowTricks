@@ -25,22 +25,22 @@ class RegistrationFormType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    'label' => "Votre adresse email",
+                    'label' => "label.email",
                     'required' => true,
                     'attr' => [
-                        'placeholder' => "Saisir votre email",
+                        'placeholder' => "placeholder.email",
                         'class' => 'form-control'
                     ],
 
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => "L'adresse email est obligatoire"
+                                'message' => "message.requiredEmail"
                             ]
                         ),
                         new Email(
                             [
-                                'message' => "L'adresse email n'est pas valide"
+                                'message' => "message.invalidEmail"
                             ]
                         )
                     ]
@@ -51,16 +51,16 @@ class RegistrationFormType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    'label' => "Votre nom",
+                    'label' => "label.username",
                     'required' => true,
                     'attr' => [
-                        'placeholder' => "Ecrivez votre nom",
+                        'placeholder' => "placeholder.username",
                         'class' => 'form-control'
                     ],
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => "Ce champ est obligatoire"
+                                'message' => "message.requiredField"
                             ]
                         )
                     ]
@@ -71,12 +71,12 @@ class RegistrationFormType extends AbstractType
                 'agreeTerms',
                 CheckboxType::class,
                 [
-                    'label' => "j'accepte les termes et conditions",
+                    'label' => "label.terms",
                     'mapped' => false,
                     'constraints' => [
                         new IsTrue(
                             [
-                                'message' => 'You should agree to our terms.',
+                                'message' => 'message.terms',
                             ]
                         ),
                     ],
@@ -96,23 +96,23 @@ class RegistrationFormType extends AbstractType
 
                     // Option du premier champ
                     'first_options' => [
-                        'label' => "Mot de passe",
+                        'label' => "label.password",
                         'attr' => [
-                            'placeholder' => "Saisir votre mot de passe",
+                            'placeholder' => "placeholder.password",
                             'class' => 'form-control'
                         ],
                         'constraints' => [
                             new NotBlank(
                                 [
-                                    'message' => "Nouveau mot de passe requis",
+                                    'message' => "message.newPassRequired",
                                 ]
                             ),
                             new Length(
                                 [
                                     'min' => 6,
-                                    'minMessage' => "Minimum de 6 caractères",
+                                    'minMessage' => "message.maxPassword",
                                     'max' => 32,
-                                    'maxMessage' => "Maximum de 32 caractères",
+                                    'maxMessage' => "message.minPassword",
                                 ]
                             ),
                         ]
@@ -120,15 +120,15 @@ class RegistrationFormType extends AbstractType
 
                     // Option du second champ
                     'second_options' => [
-                        'label' => "Confirmation du mot de passe",
+                        'label' => "label.confirmPassword",
                         'attr' => [
-                            'placeholder' => "Répétez votre mot de passe",
+                            'placeholder' => "placeholder.confirmPassword",
                             'class' => 'form-control'
                         ]
                     ],
 
                     // Message d'erreur
-                    'invalid_message' => "Les champs ne sont pas identiques",
+                    'invalid_message' => "message.invalidTwoPasswor",
                 ]
             );
     }

@@ -21,7 +21,7 @@ class CommentType extends AbstractType
                     'required' => true,
                     'label' => false,
                     'attr' => [
-                        'placeholder' => "Votre commentaire",
+                        'placeholder' => "label.comment",
                         'class' => 'form-control',
                     ]
                 ]
@@ -30,7 +30,7 @@ class CommentType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'label' => "Valider",
+                    'label' => "label.send",
                     'attr' => [
                         'class' => 'form-control',
                     ]
