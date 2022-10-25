@@ -19,22 +19,22 @@ class ForgotPasswordType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    'label' => "Votre adresse email",
+                    'label' => "label.email",
                     'required' => true,
                     'attr' => [
-                        'placeholder' => "Saisir votre email",
+                        'placeholder' => "placeholder.email",
                         'class' => 'form-control'
                     ],
 
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => "L'adresse email est obligatoire"
+                                'message' => "message.requiredEmail"
                             ]
                         ),
                         new Email(
                             [
-                                'message' => "L'adresse email n'est pas valide"
+                                'message' => "message.invalidEmail"
                             ]
                         )
                     ]
@@ -45,7 +45,7 @@ class ForgotPasswordType extends AbstractType
                 'send',
                 SubmitType::class,
                 [
-                    'label' => "Envoyer"
+                    'label' => "label.send"
                 ]
             );
     }

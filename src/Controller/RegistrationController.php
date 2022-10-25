@@ -46,6 +46,16 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $image = $form->get('avatar')->getData();
+
+            if (!empty($image)) {
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move(
+                    $this->getParameter('avatar_directory'),
+                    $fichier
+                );
+                $user->addAvatar($fichier);
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion {{ parent() }}{% endblock %}
 
 {% block body %}
 <div class="container register">
     <form method="post">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h1 class="mb-5 text-center">Connectez-vous</h1>
+                <h1 class="mb-5 text-center">{% trans %}title.login{% endtrans %}</h1>
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -19,19 +19,19 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <label for="username">Email</label>
+                    <label for="username">{% trans %}label.email{% endtrans %}</label>
                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                            autocomplete="email" required autofocus>
                 </div>
                 <div class="form-group mb-2">
-                    <label for="inputPassword">Password</label>
+                    <label for="inputPassword">{% trans %}label.password{% endtrans %}</label>
                     <input type="password" name="password" id="inputPassword" class="form-control"
                            autocomplete="current-password" required>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <a href="{{ path('app_forgot_password') }}">Mot de passe oublié ?</a>
-                <a href="{{ path('app_register') }}">S'inscrire</a>
+                <a href="{{ path('app_forgot_password') }}">{% trans %}title.forgotPassword{% endtrans %} ?</a>
+                <a href="{{ path('app_register') }}">{% trans %}title.signup{% endtrans %}</a>
                 <div class="form-group mt-5 text-center">
                     <button type="submit" class="btn btn-success">Connexion</button>
                 </div>

@@ -1,9 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <!-- Primary Meta Tags -->
+        <title>{% block title %}- SnowTricks Site communautaire{% endblock %}</title>
+        <meta name="title" content="SnowTricks Site communautaire">
+        <meta name="description" content="Site communautaire de partage de figures du snowboard. Le contenu de ce site est fictif, mais entièrement fonctionnel, il a été créé dans un but d'apprentissage.">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="http://www.snowtricks.bastienmoreau.com/">
+        <meta property="og:title" content="SnowTricks Site communautaire">
+        <meta property="og:description" content="Site communautaire de partage de figures du snowboard. Le contenu de ce site est fictif, mais entièrement fonctionnel, il a été créé dans un but d'apprentissage.">
+        <meta property="og:image" content="http://www.snowtricks.bastienmoreau.com/public/images/thumbnail.png">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="http://www.snowtricks.bastienmoreau.com/">
+        <meta property="twitter:title" content="SnowTricks Site communautaire">
+        <meta property="twitter:description" content="Site communautaire de partage de figures du snowboard. Le contenu de ce site est fictif, mais entièrement fonctionnel, il a été créé dans un but d'apprentissage.">
+        <meta property="twitter:image" content="http://www.snowtricks.bastienmoreau.com/public/images/thumbnail.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#1e4356">
+        <link rel="canonical" href="http://www.snowtricks.bastienmoreau.com/">
+        <link rel="icon" href="{{ asset('/images/icon.png') }}" type="image/x-icon">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -32,9 +50,18 @@
                 <div class="alert alert-{{ status}}">{{message}}</div>
             {% endfor %}
         {% endfor %}
-        <a href="#main" class="btn btn-outline-primary btn-floating btn-lg" id="to-down">
-            <i class="fa-solid fa-arrow-down"></i>
-        </a>
+        {% if app.request.get('_route') == 'app_homepage' %}
+            <a href="#main" class="btn btn-outline-primary btn-floating btn-lg" id="to-down">
+                <i class="fa-solid fa-arrow-down"></i>
+                <span class="sr-only">Tricks</span>
+            </a>
+        {% elseif app.request.get('_route') == 'app_tricks_show' %}
+            <a href="#comments-block" class="btn btn-outline-primary btn-floating btn-lg" id="to-down">
+                <i class="fa-solid fa-arrow-down"></i>
+                <span class="sr-only">Commentaires</span>
+            </a>
+        {% endif %}
+
 
         {% block body %}{% endblock %}
 

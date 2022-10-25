@@ -1,0 +1,40 @@
+placeholder:
+  username: Ecrivez votre nom
+  email: Saisir votre email
+  password: Saisir votre mot de passe
+  confirmPassword: Répétez votre mot de passe
+title:
+  login: Connectez-vous
+  signup: Inscrivez-vous
+  forgotPassword: Mot de passe oublié
+label:
+  avatar: Avatar
+  email: Votre adresse email
+  username: Votre nom
+  password: Mot de passe
+  confirmPassword: Confirmation du mot de passe
+  terms: J'accepte les termes et conditions
+  send: Envoyer
+  comment: Votre commentaire
+  trickName: Nom du trick
+  trickCategory: Indiquez la catégorie du trick
+  grabs: Les grabs
+  rotations: Les rotations
+  flips: Les flips
+  rotationsOffaxis: Les rotations désaxées
+  slides: Les slides
+  oneFootTrick: Les one foot tricks
+  oldSchool: Old school
+  videoLink: Lien vers la vidéo
+  trickDescription: Desctiprion du trick
+message:
+  video: L'URL de la vidéo n'est pas valide ! (Youtube, Dailymotion et Viméo)
+  requiredEmail: L'adresse email est obligatoire
+  invalidEmail: L'adresse email n'est pas valide
+  requiredField: Ce champ est obligatoire
+  terms: Vous devez accepter nos conditions
+  newPassRequired: Mot de passe requis
+  maxPassword: Minimum de 6 caractères
+  minPassword: Maximum de 32 caractères
+  invalidTwoPassword:  Les champs ne sont pas identiques
+  mimeType: Veuillez télécharger une image valide

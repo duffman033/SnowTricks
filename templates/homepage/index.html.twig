@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomepageController!{% endblock %}
+{% block title %}Acceuil {{ parent() }}{% endblock %}
 
 {% block body %}
     <section id="hero" class="d-flex justify-content-center align-items-center">
-        <div id="carouselExampleControls" class="container carousel carousel-fade">
+        <div id="carouselExampleControls" class="container carousel carousel-fade" data-ride="carousel">
             <div class="carousel-item active">
                 <div class="carousel-container">
                     <h2 class="animate__animated animate__fadeInDown">Bienvenue chez <span>SnowTricks</span></h2>
                     <p class="animate__animated animate__fadeInUp">Le site communautaire qui regroupe tous les tricks du
                         Snowboard et une grande communauté de fan.</p>
                     <a href="{{ path('app_homepage') }}#tricks_anchor"
-                       class="btn-get-started animate__animated animate__fadeInUp">Plus de détails?</a>
+                       class="btn-get-started">Plus de détails?</a>
                 </div>
             </div>
             <div class="carousel-item">
@@ -20,15 +20,9 @@
                     <p class="animate__animated animate__fadeInUp">C'est un site collaboratif pour faire connaître ce
                         sport auprès du grand public et aider à l'apprentissage des figures (tricks).</p>
                     <a href="{{ path('app_homepage') }}#tricks_anchor"
-                       class="btn-get-started animate__animated animate__fadeInUp">Plus de tricks?</a>
+                       class="btn-get-started">Plus de tricks?</a>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
-            </a>
         </div>
     </section>
     <main id="main">
@@ -53,16 +47,24 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
-                        <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch">
                             <div class="card">
                                 <div class="card-img">
-                                    <img src="{{ asset('/uploads/'~mainPicture) }}" alt="Card image cap"
-                                         style="width : 416px; height: 322px">
+                                    <img src="{% if (trick.pictures | length) != 0 %}
+                                                {{ asset('/uploads/'~mainPicture) }}
+                                              {% else %}
+                                                {{ asset('/images/'~mainPicture) }}
+                                              {% endif %}
+                                              " alt="{{ trick.name }} image"
+                                         style="width : 416px; height: 322px" loading="lazy"
+                                         title="{{ trick.name }} image" width="auto" height="auto">
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ trick.name }}</h5>
                                     <p class="card-text">{{ trick.description | slice(0,60) }}...</p>
-                                    <div class="read-more"><a href="{{ path('app_tricks_show', {'id': trick.id}) }}"><i class="fa-sharp fa-solid fa-arrow-right"></i>Détails</a></div>
+                                    <div class="read-more"><a
+                                                href="{{ path('app_tricks_show', {'slug': trick.slug}) }}"><i
+                                                    class="fa-sharp fa-solid fa-arrow-right"></i>Détails</a></div>
                                 </div>
                             </div>
                         </div>

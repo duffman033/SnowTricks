@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{% trans %}title.signup{% endtrans %} {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container register">
@@ -9,7 +9,7 @@
         {% endfor %}
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h1 class="mb-5 text-center">Inscrivez-vous</h1>
+                <h1 class="mb-5 text-center">{% trans %}title.signup{% endtrans %}</h1>
                 {{ form_start(registrationForm, {
                     attr: {
                         novalidate: "novalidate"
@@ -28,6 +28,13 @@
                     {{ form_widget(registrationForm.email) }}
                     {{ form_help(registrationForm.email) }}
                     {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.avatar) }}
+                    <br>
+                    {{ form_widget(registrationForm.avatar) }}
+                    {{ form_help(registrationForm.avatar) }}
+                    {{ form_errors(registrationForm.avatar) }}
                 </div>
                 <div class="form-group">
                     {{ form_label(registrationForm.plainPassword.first) }}
@@ -51,10 +58,10 @@
 
 
                 <div class="form-group mt-5 text-center">
-                    <div class="form-group"><button type="submit" class="btn btn-success btn">Inscription</button></div>
+                    <div class="form-group"><button type="submit" class="btn btn-success btn">{% trans %}title.signup{% endtrans %}</button></div>
                 </div>
                 {{ form_end(registrationForm) }}
-                <a href="{{ path('app_login') }}">Connectez-vous à votre compte</a>
+                <a href="{{ path('app_login') }}">{% trans %}title.login{% endtrans %}</a>
             </div>
         </div>
     </div>

@@ -6,41 +6,55 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+
+    public $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void
     {
         $builder
             ->add(
                 'email',
                 EmailType::class,
                 [
-                    'label' => "Votre adresse email",
+                    'label' => "label.email",
                     'required' => true,
                     'attr' => [
-                        'placeholder' => "Saisir votre email",
+                        'placeholder' => "placeholder.email",
                         'class' => 'form-control'
                     ],
 
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => "L'adresse email est obligatoire"
+                                'message' => $this->translator->trans("message.requiredEmail")
                             ]
                         ),
                         new Email(
                             [
-                                'message' => "L'adresse email n'est pas valide"
+                                'message' => $this->translator->trans("message.invalidEmail")
                             ]
                         )
                     ]
@@ -51,16 +65,16 @@ class RegistrationFormType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    'label' => "Votre nom",
+                    'label' => "label.username",
                     'required' => true,
                     'attr' => [
-                        'placeholder' => "Ecrivez votre nom",
+                        'placeholder' => "placeholder.username",
                         'class' => 'form-control'
                     ],
                     'constraints' => [
                         new NotBlank(
                             [
-                                'message' => "Ce champ est obligatoire"
+                                'message' => $this->translator->trans("message.requiredField")
                             ]
                         )
                     ]
@@ -71,15 +85,40 @@ class RegistrationFormType extends AbstractType
                 'agreeTerms',
                 CheckboxType::class,
                 [
-                    'label' => "j'accepte les termes et conditions",
+                    'label' => "label.terms",
                     'mapped' => false,
                     'constraints' => [
                         new IsTrue(
                             [
-                                'message' => 'You should agree to our terms.',
+                                'message' => $this->translator->trans('message.terms'),
                             ]
                         ),
                     ],
+                ]
+            )
+            ->add(
+                'avatar',
+                FileType::class,
+                [
+                    'required' => false,
+                    'label' => "label.avatar",
+                    'mapped' => false,
+                    'multiple' => false,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'accept' => 'image/*'
+                    ],
+                    'constraints' => [
+                        new File(
+                            [
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/*',
+                                ],
+                                'mimeTypesMessage' => $this->translator->trans('message.mimeType'),
+                            ]
+                        )
+                    ]
                 ]
             )
             ->add(
@@ -96,23 +135,23 @@ class RegistrationFormType extends AbstractType
 
                     // Option du premier champ
                     'first_options' => [
-                        'label' => "Mot de passe",
+                        'label' => "label.password",
                         'attr' => [
-                            'placeholder' => "Saisir votre mot de passe",
+                            'placeholder' => "placeholder.password",
                             'class' => 'form-control'
                         ],
                         'constraints' => [
                             new NotBlank(
                                 [
-                                    'message' => "Nouveau mot de passe requis",
+                                    'message' => $this->translator->trans("message.newPassRequired"),
                                 ]
                             ),
                             new Length(
                                 [
                                     'min' => 6,
-                                    'minMessage' => "Minimum de 6 caractères",
+                                    'minMessage' => $this->translator->trans("message.maxPassword"),
                                     'max' => 32,
-                                    'maxMessage' => "Maximum de 32 caractères",
+                                    'maxMessage' => $this->translator->trans("message.minPassword"),
                                 ]
                             ),
                         ]
@@ -120,15 +159,15 @@ class RegistrationFormType extends AbstractType
 
                     // Option du second champ
                     'second_options' => [
-                        'label' => "Confirmation du mot de passe",
+                        'label' => "label.confirmPassword",
                         'attr' => [
-                            'placeholder' => "Répétez votre mot de passe",
+                            'placeholder' => "placeholder.confirmPassword",
                             'class' => 'form-control'
                         ]
                     ],
 
                     // Message d'erreur
-                    'invalid_message' => "Les champs ne sont pas identiques",
+                    'invalid_message' => $this->translator->trans("message.invalidTwoPassword"),
                 ]
             );
     }

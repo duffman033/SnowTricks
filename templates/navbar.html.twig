@@ -1,49 +1,60 @@
-<header id="header" class="fixed-top d-flex align-items-center nav_screen">
-    <div class="container d-flex justify-content-between align-items-center">
-
-        <div class="logo">
-            <h1 class="text-light"><a href="{{ path('app_homepage') }}"><span>SnowTricks</span></a></h1>
-        </div>
-
-        <nav class="navbar navbar-expand-lg">
+<header id="header" class="fixed-top nav_screen">
+    <div class="container-nav">
+        <nav class="navbar navbar-expand-lg py-4 w-100">
+            <div class="logo navbar-right">
+                <h1 class="text-light"><a href="{{ path('app_homepage') }}" class="d-flex flex-column"><span>SnowTricks</span><span><small>Site communautaire</small></span></a></h1>
+            </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"><i class="fa-solid fa-bars"></i></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                <a href="{{ path('app_homepage') }}">Acceuil</a>
-                <a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('app_tricks_new') }}">Ajouter un trick</a>
-                    <a href="{{ path('app_logout') }}">Deconnexion</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}">Connexion</a>
-                    <a href="{{ path('app_register') }}">Inscription</a>
-                {% endif %}
+                    <a href="{{ path('app_homepage') }}">Acceuil</a>
+                    <a href="{{ path('app_homepage') }}#tricks_anchor">Tricks</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('app_tricks_new') }}">Ajouter un trick</a>
+                        <a href="{{ path('app_logout') }}">Deconnexion</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}">Connexion</a>
+                        <a href="{{ path('app_register') }}">Inscription</a>
+                    {% endif %}
 
                 </div>
             </div>
-
         </nav>
-
     </div>
 </header>
-<div>
-    <nav class="mobile-nav">
-        <a href="{{ path('app_homepage') }}" class="bloc-icon">
-            <i class="fa-solid fa-house"></i>
-        </a>
-        <a href="{{ path('app_homepage') }}#tricks_anchor" class="bloc-icon">
-            <i class="fa-solid fa-bookmark"></i>
-        </a>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('app_logout') }}" class="bloc-icon" style="color: red">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </a>
-        {% else %}
-            <a href="{{ path('app_login') }}" class="bloc-icon">
-                <i class="fa-solid fa-right-to-bracket"></i>
-            </a>
-        {% endif %}
-    </nav>
-</div>
+<header class="header" id="header-nav">
+    <div class="container-nav">
+        <nav class="bottom-nav">
+            <div class="bottom-nav-item active">
+                <div class="bottom-nav-link">
+                    <a href="{{ path('app_homepage') }}"><i class="fa-solid fa-house"></i><span class="sr-only">Acceuil</span></a>
+                </div>
+            </div>
+            <div class="bottom-nav-item">
+                <div class="bottom-nav-link">
+                    <a href="{{ path('app_homepage') }}#tricks_anchor"><i class="fa-solid fa-bookmark"></i><span class="sr-only">Tricks</span></a>
+                </div>
+            </div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="bottom-nav-item">
+                    <div class="bottom-nav-link">
+                        <a href="{{ path('app_tricks_new') }}"><i class="fa-solid fa-pen-to-square"></i><span class="sr-only">Ajouter un tricks</span></a>
+                    </div>
+                </div>
+                <div class="bottom-nav-item">
+                    <div class="bottom-nav-link">
+                        <a href="{{ path('app_logout') }}"><i class="fa-solid fa-right-from-bracket"></i><span class="sr-only">Déconnexion</span></a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="bottom-nav-item">
+                    <div class="bottom-nav-link">
+                        <a href="{{ path('app_login') }}"><i class="fa-solid fa-right-to-bracket"></i><span class="sr-only">Inscription</span></a>
+                    </div>
+                </div>
+            {% endif %}
+        </nav>
+    </div>
+</header>

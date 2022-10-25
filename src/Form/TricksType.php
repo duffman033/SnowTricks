@@ -10,10 +10,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TricksType extends AbstractType
 {
+    public $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -21,9 +31,9 @@ class TricksType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    "label" => "Nom du trick",
+                    "label" => "label.trickName",
                     'attr' => [
-                        'placeholder' => "Nom du trick",
+                        'placeholder' => "label.trickName",
                         'class' => 'form-control',
                     ],
                     'required' => true,
@@ -33,9 +43,9 @@ class TricksType extends AbstractType
                 'description',
                 TextareaType::class,
                 [
-                    "label" => "Desctiprion du trick",
+                    "label" => "label.trickDescription",
                     'attr' => [
-                        'placeholder' => "Desctiprion du trick",
+                        'placeholder' => "label.trickDescription",
                         'class' => 'form-control',
                     ],
                     'required' => true,
@@ -45,15 +55,15 @@ class TricksType extends AbstractType
                 'category',
                 ChoiceType::class,
                 [
-                    'label' => "Indiquez la catégorie du trick ",
+                    'label' => "label.trickCategory",
                     'choices' => [
-                        'Les grabs' => 'Les grabs',
-                        'Les rotations' => 'Les rotations',
-                        'Les flips' => 'Les flips',
-                        'Les rotations désaxées' => 'Les rotations désaxées',
-                        'Les slides' => 'Les slides',
-                        'Les one foot tricks' => 'Les one foot tricks',
-                        'Old school' => 'Old school'
+                        'label.grabs' => 'Les grabs',
+                        'label.rotations' => 'Les rotations',
+                        'label.flips' => 'Les flips',
+                        'label.rotationsOffaxis' => 'Les rotations désaxées',
+                        'label.slides' => 'Les slides',
+                        'label.oneFootTrick' => 'Les one foot tricks',
+                        'label.oldSchool' => 'Old school'
                     ],
                     'attr' => [
                         'class' => 'form-control',
@@ -68,10 +78,26 @@ class TricksType extends AbstractType
                     'label' => false,
                     'multiple' => true,
                     'mapped' => false,
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
+                        'accept' => 'image/*'
                     ],
+                    'constraints' => [
+                        new All(
+                            [
+                                new File(
+                                    [
+                                        'maxSize' => '1024k',
+                                        'mimeTypes' => [
+                                            'image/*',
+                                        ],
+                                        'mimeTypesMessage' => $this->translator->trans('message.mimeType'),
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
                 ]
             )
             ->add(
@@ -81,24 +107,18 @@ class TricksType extends AbstractType
                     'label' => false,
                     'attr' => [
                         'class' => 'form-control',
-                        'placeholder' => 'Lien vers la vidéo'
+                        'placeholder' => 'label.videoLink'
                     ],
                     'required' => false,
                     'mapped' => false,
                     'constraints' => [
                         new Regex(
                             [
-                                'pattern' => "^
-                                ((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|
-                                (/http:\/\/www\.dailymotion\.com\/video\/+/)|
-                                ((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|
-                                ((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)
-                                ^",
-                                'message' => 'L\'URL de la vidéo n\'est pas valide ! (Youtube, Dailymotion et Viméo)'
+                                'pattern' => "^((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|(/http:\/\/www\.dailymotion\.com\/video\/+/)|((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)^",
+                                'message' => $this->translator->trans('message.video')
                             ]
                         ),
                     ],
-
                 ]
             );
     }
