@@ -11,6 +11,7 @@ use App\Form\TricksType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use App\Repository\VideoRepository;
+use App\Service\VideosService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,6 +24,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TricksController extends AbstractController
 {
+    /**
+     * @var VideosService
+     */
+    protected $videosService;
+
+    public function __construct(
+        VideosService $videosService
+    ) {
+        $this->videosService = $videosService;
+    }
+
     /**
      * @IsGranted("ROLE_USER")
      * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
@@ -45,18 +57,19 @@ class TricksController extends AbstractController
                 $videoRepository->add($video, true);
             }
             $pictures = $form->get('pictures')->getData();
+            if (!empty($pictures)) {
+                foreach ($pictures as $image) {
+                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
-            foreach ($pictures as $image) {
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
 
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-
-                $img = new Pictures();
-                $img->setName($fichier);
-                $trick->addPictures($img);
+                    $img = new Pictures();
+                    $img->setName($fichier);
+                    $trick->addPictures($img);
+                }
             }
             $trick->setUser($this->getUser());
 //            $trick->setSlug($form->get('name')->getData());
@@ -107,6 +120,7 @@ class TricksController extends AbstractController
             'tricks/show.html.twig',
             [
                 'trick' => $trick,
+                'videos' => $this->videosService->vidProviderUrl2Player($trick),
                 'comments' => $commentRepository->findCommentsDesc($trick),
                 'countComments' => $commentRepository->count(['trick' => $trick]),
                 'comment' => $comment,
@@ -170,7 +184,7 @@ class TricksController extends AbstractController
                 $img->setName($fichier);
                 $trick->addPictures($img);
             }
-//            $trick->setUpdatedAt(new \DateTime('now'));
+            $trick->setUpdatedAt(new \DateTime('now'));
             $tricksRepository->add($trick, true);
             $this->addFlash('success', "Modification effectuée avec succès !");
             return $this->redirectToRoute('app_tricks_show', ["slug" => $trick->getSlug()], Response::HTTP_SEE_OTHER);
@@ -180,6 +194,7 @@ class TricksController extends AbstractController
             'tricks/edit.html.twig',
             [
                 'trick' => $trick,
+                'videos' => $this->videosService->vidProviderUrl2Player($trick),
                 'form' => $form,
             ]
         );
@@ -215,7 +230,7 @@ class TricksController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', "Suppression effectuée avec succès !");
-        return $this->redirectToRoute('app_tricks_edit', ['id' => $trickSlug]);
+        return $this->redirectToRoute('app_tricks_edit', ['slug' => $trickSlug]);
     }
 
     /**

@@ -1,39 +1,40 @@
-label.username: Your name
-placeholder.username: Write your name
-label.email: Your email address
-placeholder.email: Enter your email
-label.password: Password
-placeholder.password: Enter your password
-label.confirmPassword: Confirm your password
-placeholder.confirmPassword: Confirm your password
-label.terms: I accept the terms and conditions
-
-title.login: Login
-title.signup: Sign up
-
-label.send: Send
-title.forgotPassword: Forgot your password
-
-label.comment: Your comment
-
-label.trickName: Trick name
-label.trickCategory: Trick category
-label.grabs: The grabs
-label.rotations: Rotations
-label.flips: The flips
-label.rotationsOffaxis: Off-axis rotations
-label.slides: The slides
-label.oneFootTrick: One foot tricks
-label.oldSchool: Old school
-label.videoLink: Link to video
-label.trickDescription: Trick description
-
-message.video: The video URL is invalid! (Youtube, Dailymotion and Vimeo)
-message.requiredEmail: Email address is required
-message.invalidEmail: The email address is not valid
-message.requiredField: This field is required
-message.terms: You should agree to our terms
-message.newPassRequired: Password is required
-message.maxPassword: Minimum of 6 characters
-message.minPassword: Maximum of 32
-message.invalidTwoPassword:  The fields are not identical
+placeholder:
+    username: Write your name
+    email: Enter your email
+    password: Enter your password
+    confirmPassword: Confirm your password
+title:
+    login: Login
+    signup: Sign up
+    forgotPassword: Forgot your password
+label:
+    avatar : Avatar
+    username: Your name
+    email: Your email address
+    password: Password
+    confirmPassword: Confirm your password
+    send: Send
+    comment: Your comment
+    terms: I accept the terms and conditions
+    trickName: Trick name
+    trickCategory: Trick category
+    grabs: The grabs
+    rotations: Rotations
+    flips: The flips
+    rotationsOffaxis: Off-axis rotations
+    slides: The slides
+    oneFootTrick: One foot tricks
+    oldSchool: Old school
+    videoLink: Link to video
+    trickDescription: Trick description
+message:
+    video: The video URL is invalid! (Youtube, Dailymotion and Vimeo)
+    requiredEmail: Email address is required
+    invalidEmail: The email address is not valid
+    requiredField: This field is required
+    terms: You should agree to our terms
+    newPassRequired: Password is required
+    maxPassword: Minimum of 6 characters
+    minPassword: Maximum of 32
+    invalidTwoPassword:  The fields are not identical
+    mimetype: Please upload a valid image

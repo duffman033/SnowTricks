@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD:templates/homepage/registration/register.html.twig
+{% block title %}{% trans %}title.signup{% endtrans %} {{ parent() }}{% endblock %}
+=======
 {% block title %}{% trans %}title.signup{% endtrans %}{% endblock %}
+>>>>>>> main:templates/registration/register.html.twig
 
 {% block body %}
     <div class="container register">
@@ -28,6 +32,13 @@
                     {{ form_widget(registrationForm.email) }}
                     {{ form_help(registrationForm.email) }}
                     {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.avatar) }}
+                    <br>
+                    {{ form_widget(registrationForm.avatar) }}
+                    {{ form_help(registrationForm.avatar) }}
+                    {{ form_errors(registrationForm.avatar) }}
                 </div>
                 <div class="form-group">
                     {{ form_label(registrationForm.plainPassword.first) }}

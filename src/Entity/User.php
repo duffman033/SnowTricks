@@ -126,7 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function addAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 

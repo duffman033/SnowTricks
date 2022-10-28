@@ -12,12 +12,12 @@ body {
 }
 
 a {
-    color: #4fa6d5;
+    color: #005685;
     text-decoration: none;
 }
 
 a:hover {
-    color: #45beff;
+    color: #4FA6D5;
     text-decoration: none;
 }
 
@@ -127,15 +127,22 @@ a:hover {
     background-color: #1e4356;
 }
 
-@media (min-width: 600px) {
+@media screen and (min-width: 600px) {
     #header-nav {
         display: none !important;
     }
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     #header-nav {
         display: block !important;
+    }
+    footer .container{
+        margin-bottom: 47.7px;
+    }
+
+    #main {
+        margin-top: 0px;
     }
 
     #main {
@@ -157,6 +164,14 @@ a:hover {
     padding: 0 2rem;
     margin: 0 auto;
 }
+
+#header-nav{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
 .header .bottom-nav {
     display: flex;
     position: fixed;
@@ -165,11 +180,11 @@ a:hover {
     right: 0;
     padding: 0.8rem 0;
     background-color: #252a32;
-    z-index: 99;
     will-change: transform;
     transform: translateZ(0);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
 }
+
 .header .bottom-nav-item {
     display: flex;
     flex-direction: column;
@@ -399,7 +414,7 @@ a:hover {
 }
 
 .service-details .read-more a {
-    color: #777777;
+    color: #3e3c3c;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 12px;
@@ -407,7 +422,7 @@ a:hover {
 }
 
 .service-details .read-more a:hover {
-    color: #68A4C4;
+    color: #3e3c3c;
 }
 
 .service-details .card:hover img {
@@ -543,7 +558,7 @@ h6 {
     margin-bottom: 0;
     padding: 0;
     font-size: 15px;
-    color: #999999;
+    color: #3e3c3c;
     line-height: 28px;
 }
 
@@ -554,6 +569,5 @@ h6 {
 .comment-anchor {
     display: block;
     height: 115px;
-    height: 98.75px;
     margin-top: -98.75px;
 }

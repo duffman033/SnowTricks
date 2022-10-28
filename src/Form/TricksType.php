@@ -10,10 +10,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TricksType extends AbstractType
 {
+    public $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -47,13 +57,13 @@ class TricksType extends AbstractType
                 [
                     'label' => "label.trickCategory",
                     'choices' => [
-                        'Les grabs' => 'label.grabs',
-                        'Les rotations' => 'label.rotations',
-                        'Les flips' => 'label.flips',
-                        'Les rotations désaxées' => 'label.rotationsOffaxis',
-                        'Les slides' => 'label.slides',
-                        'Les one foot tricks' => 'label.oneFootTrick',
-                        'Old school' => 'label.oldSchool'
+                        'label.grabs' => 'Les grabs',
+                        'label.rotations' => 'Les rotations',
+                        'label.flips' => 'Les flips',
+                        'label.rotationsOffaxis' => 'Les rotations désaxées',
+                        'label.slides' => 'Les slides',
+                        'label.oneFootTrick' => 'Les one foot tricks',
+                        'label.oldSchool' => 'Old school'
                     ],
                     'attr' => [
                         'class' => 'form-control',
@@ -68,10 +78,26 @@ class TricksType extends AbstractType
                     'label' => false,
                     'multiple' => true,
                     'mapped' => false,
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
+                        'accept' => 'image/*'
                     ],
+                    'constraints' => [
+                        new All(
+                            [
+                                new File(
+                                    [
+                                        'maxSize' => '1024k',
+                                        'mimeTypes' => [
+                                            'image/*',
+                                        ],
+                                        'mimeTypesMessage' => $this->translator->trans('message.mimeType'),
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
                 ]
             )
             ->add(
@@ -88,13 +114,8 @@ class TricksType extends AbstractType
                     'constraints' => [
                         new Regex(
                             [
-                                'pattern' => "^
-                                ((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|
-                                (/http:\/\/www\.dailymotion\.com\/video\/+/)|
-                                ((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|
-                                ((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)
-                                ^",
-                                'message' => 'message.video'
+                                'pattern' => "^((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|(/http:\/\/www\.dailymotion\.com\/video\/+/)|((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)^",
+                                'message' => $this->translator->trans('message.video')
                             ]
                         ),
                     ],
