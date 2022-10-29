@@ -41,22 +41,19 @@ class TricksController extends AbstractController
      */
     public function new(
         Request $request,
-        TricksRepository $tricksRepository,
-        VideoRepository $videoRepository
+        TricksRepository $tricksRepository
     ): Response {
         $trick = new Tricks();
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
-        $video = new Video();
-
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('url')->getData()) {
-                $url = $form->get('url')->getData();
-                $video->setTrick($trick);
-                $video->setUrl($url);
-                $videoRepository->add($video, true);
+            if ($form->get('videos')->getData()) {
+                foreach ($form->get("videos")->getData() as $video) {
+                    $video->setTrick($trick);
+                }
             }
             $pictures = $form->get('pictures')->getData();
+
             if (!empty($pictures)) {
                 foreach ($pictures as $image) {
                     $fichier = md5(uniqid()) . '.' . $image->guessExtension();
@@ -72,7 +69,6 @@ class TricksController extends AbstractController
                 }
             }
             $trick->setUser($this->getUser());
-//            $trick->setSlug($form->get('name')->getData());
 
             $tricksRepository->add($trick, true);
             $this->addFlash('success', "Ajout effectué avec succès !");
@@ -157,18 +153,15 @@ class TricksController extends AbstractController
     public function edit(
         Request $request,
         Tricks $trick,
-        TricksRepository $tricksRepository,
-        VideoRepository $videoRepository
+        TricksRepository $tricksRepository
     ): Response {
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
-        $video = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('url')->getData()) {
-                $url = $form->get('url')->getData();
-                $video->setTrick($trick);
-                $video->setUrl($url);
-                $videoRepository->add($video, true);
+            if ($form->get('videos')->getData()) {
+                foreach ($form->get("videos")->getData() as $video) {
+                    $video->setTrick($trick);
+                }
             }
             $pictures = $form->get('pictures')->getData();
 
@@ -202,7 +195,7 @@ class TricksController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{slug}", name="app_tricks_delete", methods={"POST"})
+     * @Route("/{slug}/delete", name="app_tricks_delete", methods={"POST"})
      */
     public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
     {
@@ -235,7 +228,7 @@ class TricksController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/delete/vidéo/{id}", name="tricks_delete_video", methods={"HEAD","GET","DELETE"})
+     * @Route("/delete/video/{id}", name="tricks_delete_video", methods={"HEAD","GET","DELETE"})
      */
     public function deleteVideo(Video $video, Request $request)
     {

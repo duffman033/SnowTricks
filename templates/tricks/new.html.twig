@@ -6,5 +6,8 @@
     {% set titleh1 = 'Ajouter un tricks' %}
     {{ include('tricks/_form.html.twig') }}
 
-{#    <a href="{{ path('app_tricks_index') }}">back to list</a>#}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('videosNew') }}
 {% endblock %}

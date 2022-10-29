@@ -7,8 +7,8 @@ use App\Repository\VideoRepository;
 
 class VideosService
 {
-    const VIDEO_WIDTH = 424;
-    const VIDEO_HEIGHT = 345;
+    const VIDEO_WIDTH = 'w-100';
+    const VIDEO_HEIGHT = '280rem';
     const VIDEO_AUTOPLAY = false;
 
     /**
@@ -37,7 +37,7 @@ class VideosService
             switch ($v['type']) {
                 case 'youtube':
                     $arrayVideo[] = [
-                        "iframe" => '<iframe width="' . self::VIDEO_WIDTH . '" height="' . self::VIDEO_HEIGHT . '" src="https://www.youtube.com/embed/' . $v['videoId'] . (self::VIDEO_AUTOPLAY ? '?autoplay=1' : '') . '" frameborder="0" allowfullscreen autoplay="1"></iframe>',
+                        "iframe" => '<iframe class="' . self::VIDEO_WIDTH . '" height="' . self::VIDEO_HEIGHT . '" src="https://www.youtube.com/embed/' . $v['videoId'] . (self::VIDEO_AUTOPLAY ? '?autoplay=1' : '') . '" frameborder="0" allowfullscreen autoplay="1"></iframe>',
                         "id" => $video->getId()
                     ];
                     break;
