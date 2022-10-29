@@ -7,3 +7,7 @@
     {{ include('tricks/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('videosNew') }}
+{% endblock %}

@@ -64,7 +64,7 @@ class Tricks
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="tricks",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="tricks",orphanRemoval=true ,cascade={"persist"})
      */
     private $pictures;
 
@@ -80,7 +80,7 @@ class Tricks
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
      */
     private $comments;
 

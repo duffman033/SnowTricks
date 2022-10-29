@@ -57,8 +57,8 @@
                                         <div class="carousel-inner text-center">
                                             {% for picture in trick.pictures %}
                                                 <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
-                                                    <img src="{{ asset('/uploads/'~picture.name) }}" width="424"
-                                                         height="345"
+                                                    <img src="{{ asset('/uploads/'~picture.name) }}" class="w-100"
+                                                         height="280rem"
                                                          alt="">
                                                     <a href="{{ path('tricks_delete_picture', {id: picture.id}) }}"
                                                        data-delete
@@ -82,8 +82,8 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
-                                    <div id="carousel-video" class="carousel slide mt-3 mb-2" data-interval="false">
-                                        <div class="carousel-inner">
+                                    <div id="carousel-video" class="carousel slide mt-3 mb-2">
+                                        <div class="carousel-inner text-center">
                                             {% for video in videos %}
                                                 <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item" {% endif %}>
                                                     {{ video['iframe']|raw }}
@@ -94,18 +94,34 @@
                                             {% endfor %}
                                         </div>
                                         <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#carousel-video" data-slide="prev">
+                                                data-bs-target="#carousel-video" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
                                         </button>
                                         <button class="carousel-control-next" type="button"
-                                                data-bs-target="#carousel-video" data-slide="next">
+                                                data-bs-target="#carousel-video" data-bs-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
                                         </button>
                                     </div>
                                 {% endif %}
-                                {{ form_row(form.url) }}
+                                <div id="trickVideos"
+                                     data-prototype="<div class='row align-items-center'><div class='col-sm-10'>{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}</div><div class='col-sm-2 form-group deleteVideo'><span><i class='fas fa-trash-alt'></i></span></div></div>"
+                                     data-widget-counter="{{ form.videos|length }}">
+
+                                    {% for video in form.videos %}
+                                        <div>
+                                            <div class='row align-items-center'>
+                                            {{ form_errors(video) }}
+                                            <div class='col-sm-10'>{{ form_widget(video) }}</div>
+                                            <div class='col-sm-2 form-group deleteVideo'><span><i
+                                                            class='fas fa-trash-alt'></i></span></div>
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <span class="btn btn-outline-secondary" id="addVideoUpload"><i
+                                            class="fa-solid fa-video-plus"></i></i>Ajouter une vidéo</span>
                             </div>
                         </div>
                         <div class="text-center">

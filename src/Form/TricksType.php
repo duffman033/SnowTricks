@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Tricks;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -101,24 +103,15 @@ class TricksType extends AbstractType
                 ]
             )
             ->add(
-                'url',
-                TextType::class,
+                'videos',
+                CollectionType::class,
                 [
+                    'entry_type' => VideoType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
                     'label' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'label.videoLink'
-                    ],
-                    'required' => false,
-                    'mapped' => false,
-                    'constraints' => [
-                        new Regex(
-                            [
-                                'pattern' => "^((http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+)|(/http:\/\/www\.dailymotion\.com\/video\/+/)|((http(s)?:\\/\\/)?((w){3}.)?dai(ly|.ly)?(\\.com)?\\/.+)|((http(s)?:\/\/)?((w){3}.)?player.vimeo.com/video\/.+)|(#TO_DELETE#)^",
-                                'message' => $this->translator->trans('message.video')
-                            ]
-                        ),
-                    ],
+                    'prototype_data' => new Video(),
                 ]
             );
     }
