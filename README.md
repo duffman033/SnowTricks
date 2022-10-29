@@ -67,7 +67,7 @@ Vouz pouver fous renseigner sur https://symfony.com/doc/current/mailer.html ou a
 
 ### Identifiant de connexion
 
-*   Nom d'utilisateur : admin
+*   Email : admin@gmail.com
 *   Mot de passe : adminadmin
 
 ### Lancer le projet

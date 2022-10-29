@@ -145,6 +145,10 @@ a:hover {
         margin-top: 0px;
     }
 
+    #main {
+        margin-top: 0px;
+    }
+
     .nav_screen {
         display: none !important;
     }
@@ -167,7 +171,6 @@ a:hover {
     left: 0;
     right: 0;
     z-index: 99;
-
 }
 .header .bottom-nav {
     display: flex;
@@ -181,6 +184,7 @@ a:hover {
     transform: translateZ(0);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
 }
+
 .header .bottom-nav-item {
     display: flex;
     flex-direction: column;
